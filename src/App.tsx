@@ -6,7 +6,7 @@ import About from './pages/About';
 import Doctors from './pages/Doctors';
 import DoctorProfile from './pages/DoctorProfile';
 import Services from './pages/Services';
-import Products from './pages/Products';
+import ProductsPage from './pages/Products';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 
@@ -22,7 +22,7 @@ function App() {
             <Route path="/doctors" element={<Doctors />} />
             <Route path="/doctor/:id" element={<DoctorProfile />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/products" element={<Products />} />
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
