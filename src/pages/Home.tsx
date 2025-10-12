@@ -5,6 +5,7 @@ import AppointmentModal from '../components/AppointmentModal';
 import { doctors } from '../data/doctors';
 import { services } from '../data/services';
 import { products } from '../data/products';
+import Testimonials from './Testimonials';
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -345,7 +346,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+<Testimonials/>
       {/* CTA Section with Pulse Animation */}
       <section 
         ref={addToRefs}
