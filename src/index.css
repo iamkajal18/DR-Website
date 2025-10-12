@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+.swiper-pagination-bullet {
+  @apply bg-amber-500 opacity-50;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-amber-500 opacity-100;
+}
