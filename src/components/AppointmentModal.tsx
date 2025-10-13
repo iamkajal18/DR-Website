@@ -1,10 +1,17 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { X, Calendar, Clock, User, Mail, Phone, MessageSquare, MessageCircle, Send } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface AppointmentModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const EMAILJS_CONFIG = {
+  SERVICE_ID: 'service_7tdsb1j', 
+  TEMPLATE_ID: 'template_rvy4i09', 
+  PUBLIC_KEY: '9_Q98f7vrLawfwruS', 
+};
 
 const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   const [formData, setFormData] = useState({
@@ -16,65 +23,19 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
     message: ''
   });
   const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    console.log('EmailJS initialized');
+  }, []);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    // Validate appointment date
-    const today = new Date().toISOString().split('T')[0];
-    if (formData.appointmentDate < today) {
-      setError('Appointment date cannot be in the past.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // Create email content
-      const emailSubject = `Appointment Request - ${formData.patientName}`;
-      const emailBody = `New Appointment Request:
-
-Patient Details:
-Name: ${formData.patientName}
-Email: ${formData.email}
-Phone: ${formData.phone}
-
-Appointment Details:
-Preferred Date: ${formData.appointmentDate}
-Preferred Time: ${formData.appointmentTime}
-Message: ${formData.message || 'No additional message'}
-
-Please confirm this appointment.`;
-
-      // Create mailto link
-      const clinicEmail = 'clinic@example.com'; // Replace with your clinic email
-      const mailtoLink = `mailto:${clinicEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Open email client
-      window.location.href = mailtoLink;
-
-      setSuccess(true);
-      setFormData({
-        patientName: '',
-        email: '',
-        phone: '',
-        appointmentDate: '',
-        appointmentTime: '',
-        message: ''
-      });
-
-      setTimeout(() => {
-        setSuccess(false);
-        onClose();
-      }, 3000);
-    } catch (err: any) {
-      console.error('Appointment booking error:', err);
-      setError('Failed to send appointment request. Please try again.');
-      setLoading(false);
-    }
+    // This function is not needed anymore since we're using separate buttons
   };
 
   const handleBookViaWhatsApp = () => {
@@ -100,41 +61,142 @@ Message: ${formData.message || 'No additional message'}
 Please confirm this appointment.`;
 
     const encodedMessage = encodeURIComponent(whatsappMessage);
-    const whatsappNumber = '918840250583'; // Replace with your actual WhatsApp number
+    const whatsappNumber = '916387486751'; // Your WhatsApp number
     
     // Open WhatsApp
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
   };
 
-  const handleSendViaEmail = () => {
+  const handleSendViaEmail = async () => {
     // Validate required fields
     if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
       setError('Please fill all required fields (Name, Phone, Date, Time) for email booking.');
       return;
     }
 
-    // Create email content
-    const emailSubject = `Appointment Request - ${formData.patientName}`;
-    const emailBody = `New Appointment Request:
+    // Validate appointment date
+    const today = new Date().toISOString().split('T')[0];
+    if (formData.appointmentDate < today) {
+      setError('Appointment date cannot be in the past.');
+      return;
+    }
 
-Patient Details:
-Name: ${formData.patientName}
-Email: ${formData.email || 'Not provided'}
-Phone: ${formData.phone}
+    setEmailLoading(true);
+    setError('');
 
-Appointment Details:
-Preferred Date: ${formData.appointmentDate}
-Preferred Time: ${formData.appointmentTime}
-Message: ${formData.message || 'No additional message'}
+    try {
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        to_email: 'kasaudhankajal51@gmail.com',
+        from_name: formData.patientName,
+        from_email: formData.email || 'no-reply@clinic.com',
+        patient_name: formData.patientName,
+        patient_email: formData.email || 'Not provided',
+        patient_phone: formData.phone,
+        appointment_date: formData.appointmentDate,
+        appointment_time: formData.appointmentTime,
+        patient_message: formData.message || 'No additional message',
+        subject: `New Appointment Request - ${formData.patientName}`,
+        clinic_name: 'Your Clinic Name',
+        reply_to: formData.email || 'kasaudhankajal51@gmail.com',
+      };
 
-Please confirm this appointment.`;
+      console.log('Sending email with params:', templateParams);
 
-    const clinicEmail = 'kasaudhankajal48@gmail.com'; // Replace with your clinic email
-    const mailtoLink = `mailto:${clinicEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams,
+        EMAILJS_CONFIG.PUBLIC_KEY
+      );
+
+      console.log('Email sent successfully:', result);
+
+      // Show success message
+      setSuccess(true);
+      
+      // Reset form
+      setFormData({
+        patientName: '',
+        email: '',
+        phone: '',
+        appointmentDate: '',
+        appointmentTime: '',
+        message: ''
+      });
+
+      // Close modal after 3 seconds
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 3000);
+
+    } catch (error) {
+      console.error('EmailJS error details:', error);
+      
+      // More specific error messages
+      if (error instanceof Error) {
+        if (error.message.includes('Failed to fetch')) {
+          setError('Network error. Please check your internet connection and try again.');
+        } else if (error.message.includes('Invalid template')) {
+          setError('Email template configuration error. Please contact support.');
+        } else if (error.message.includes('Public key is not valid')) {
+          setError('Email service configuration error. Please contact support.');
+        } else {
+          setError(`Failed to send email: ${error.message}`);
+        }
+      } else {
+        setError('Failed to send email. Please try again or use WhatsApp instead.');
+      }
+    } finally {
+      setEmailLoading(false);
+    }
   };
+
+  // Test function to debug EmailJS
+  const testEmailJSConnection = async () => {
+    try {
+      console.log('Testing EmailJS connection...');
+      
+      const testParams = {
+        to_email: 'kasaudhankajal51@gmail.com',
+        from_name: 'Test User',
+        from_email: 'test@example.com',
+        patient_name: 'Test Patient',
+        patient_email: 'test@example.com',
+        patient_phone: '+1234567890',
+        appointment_date: new Date().toISOString().split('T')[0],
+        appointment_time: '10:00 AM - 11:00 AM',
+        patient_message: 'This is a test message from the appointment system',
+        subject: 'Test Appointment Request',
+        clinic_name: 'Test Clinic',
+        reply_to: 'test@example.com'
+      };
+
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        testParams,
+        EMAILJS_CONFIG.PUBLIC_KEY
+      );
+      
+      console.log('Test email sent successfully:', result);
+      alert('Test email sent successfully! Check your inbox.');
+      return true;
+    } catch (error) {
+      console.error('Test email failed:', error);
+      alert('Test email failed. Check console for details.');
+      return false;
+    }
+  };
+
+  // Clear error when form data changes
+  useEffect(() => {
+    if (error) {
+      setError('');
+    }
+  }, [formData]);
 
   if (!isOpen) return null;
 
@@ -150,6 +212,14 @@ Please confirm this appointment.`;
           </button>
           <h2 className="text-2xl font-bold text-white">Book an Appointment</h2>
           <p className="text-amber-100 mt-1">Fill in your details and we'll contact you soon</p>
+          
+          {/* Debug button - you can remove this in production */}
+          <button
+            onClick={testEmailJSConnection}
+            className="mt-2 px-3 py-1 bg-white text-amber-600 text-xs rounded hover:bg-gray-100 transition-colors"
+          >
+            Test Email Connection
+          </button>
         </div>
 
         {success ? (
@@ -171,8 +241,11 @@ Please confirm this appointment.`;
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
-                {error}
+              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-start">
+                <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <span>{error}</span>
               </div>
             )}
 
@@ -186,7 +259,7 @@ Please confirm this appointment.`;
                 required
                 value={formData.patientName}
                 onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
             </div>
@@ -201,7 +274,7 @@ Please confirm this appointment.`;
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="your@email.com"
                 />
               </div>
@@ -216,7 +289,7 @@ Please confirm this appointment.`;
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="+91 XXXXX XXXXX"
                 />
               </div>
@@ -234,7 +307,7 @@ Please confirm this appointment.`;
                   value={formData.appointmentDate}
                   onChange={(e) => setFormData({ ...formData, appointmentDate: e.target.value })}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 />
               </div>
 
@@ -247,7 +320,7 @@ Please confirm this appointment.`;
                   required
                   value={formData.appointmentTime}
                   onChange={(e) => setFormData({ ...formData, appointmentTime: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 >
                   <option value="">Select time</option>
                   <option value="09:00 AM - 10:00 AM">09:00 AM - 10:00 AM</option>
@@ -271,7 +344,7 @@ Please confirm this appointment.`;
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Tell us about your symptoms or reason for visit..."
               />
             </div>
@@ -282,16 +355,26 @@ Please confirm this appointment.`;
                 <button
                   type="button"
                   onClick={handleSendViaEmail}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium flex items-center justify-center gap-3"
+                  disabled={emailLoading}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
                 >
-                  <Send size={20} />
-                  Send via Email
+                  {emailLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={20} />
+                      Send via Email
+                    </>
+                  )}
                 </button>
                 
                 <button
                   type="button"
                   onClick={handleBookViaWhatsApp}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all font-medium flex items-center justify-center gap-3"
+                  className="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all font-medium flex items-center justify-center gap-3 shadow-md hover:shadow-lg"
                 >
                   <MessageCircle size={20} />
                   Send via WhatsApp

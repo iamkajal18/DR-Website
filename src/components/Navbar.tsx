@@ -21,13 +21,23 @@ export default function Navbar() {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center space-x-3">
-            <img src="/image.png" alt="Ratna Homoeo Clinic" className="h-14 w-14" />
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Ratna Homoeo Clinic</h1>
-              <p className="text-xs text-amber-600">Natural Healing, Holistic Care</p>
-            </div>
-          </Link>
+          <div className="flex justify-between items-center h-20 px-6 bg-white shadow-sm">
+  <Link to="/" className="flex items-center gap-4">
+    <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-gradient-to-r from-amber-400 to-amber-600 p-[2px] shadow-md">
+      <img
+        src="/logo.png"
+        alt="Ratna Homoeo Clinic"
+        className="h-full w-full rounded-full object-cover bg-white p-1"
+      />
+    </div>
+    <div>
+      <h1 className="text-2xl font-bold text-gray-900 tracking-wide">Ratna Homoeo Clinic</h1>
+      <p className="text-sm text-amber-600 font-medium">Natural Healing, Holistic Care</p>
+    </div>
+  </Link>
+</div>
+
+
 
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
