@@ -1,6 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { X, Calendar, Clock, User, Mail, Phone, MessageSquare } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { X, Calendar, Clock, User, Mail, Phone, MessageSquare, MessageCircle, Send } from 'lucide-react';
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -21,67 +20,121 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
-  // Validate appointment date
-  const today = new Date().toISOString().split('T')[0];
-  if (formData.appointmentDate < today) {
-    setError('Appointment date cannot be in the past.');
-    setLoading(false);
-    return;
-  }
-
-  try {
-    const insertData = {
-      name: formData.patientName,
-      email: formData.email,
-      phone: formData.phone,
-      preferred_date: formData.appointmentDate,
-      preferred_time: formData.appointmentTime,
-      message: formData.message,
-      status: 'pending'
-    };
-    
-    console.log('Insert data:', insertData);
-
-    const { data, error: insertError } = await supabase
-      .from('appointments')
-      .insert([insertData])
-      .select();
-
-    if (insertError) {
-      console.error('Supabase error:', insertError);
-      
-      // Specific handling for RLS violation
-      if (insertError.code === '42501' || insertError.message.includes('row-level security')) {
-        throw new Error('Permission denied. Please check database policies.');
-      }
-      
-      throw insertError;
+    // Validate appointment date
+    const today = new Date().toISOString().split('T')[0];
+    if (formData.appointmentDate < today) {
+      setError('Appointment date cannot be in the past.');
+      setLoading(false);
+      return;
     }
 
-    setSuccess(true);
-    setFormData({
-      patientName: '',
-      email: '',
-      phone: '',
-      appointmentDate: '',
-      appointmentTime: '',
-      message: ''
-    });
+    try {
+      // Create email content
+      const emailSubject = `Appointment Request - ${formData.patientName}`;
+      const emailBody = `New Appointment Request:
 
-    setTimeout(() => {
-      setSuccess(false);
-      onClose();
-    }, 3000);
-  } catch (err: any) {
-    console.error('Appointment booking error:', err);
-    setError(err.message || 'Failed to book appointment. Please try again.');
-    setLoading(false);
-  }
-};
+Patient Details:
+Name: ${formData.patientName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Appointment Details:
+Preferred Date: ${formData.appointmentDate}
+Preferred Time: ${formData.appointmentTime}
+Message: ${formData.message || 'No additional message'}
+
+Please confirm this appointment.`;
+
+      // Create mailto link
+      const clinicEmail = 'clinic@example.com'; // Replace with your clinic email
+      const mailtoLink = `mailto:${clinicEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open email client
+      window.location.href = mailtoLink;
+
+      setSuccess(true);
+      setFormData({
+        patientName: '',
+        email: '',
+        phone: '',
+        appointmentDate: '',
+        appointmentTime: '',
+        message: ''
+      });
+
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 3000);
+    } catch (err: any) {
+      console.error('Appointment booking error:', err);
+      setError('Failed to send appointment request. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const handleBookViaWhatsApp = () => {
+    // Validate required fields
+    if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
+      setError('Please fill all required fields (Name, Phone, Date, Time) for WhatsApp booking.');
+      return;
+    }
+
+    // Create WhatsApp message
+    const whatsappMessage = `New Appointment Request:
+
+Patient Details:
+Name: ${formData.patientName}
+Email: ${formData.email || 'Not provided'}
+Phone: ${formData.phone}
+
+Appointment Details:
+Preferred Date: ${formData.appointmentDate}
+Preferred Time: ${formData.appointmentTime}
+Message: ${formData.message || 'No additional message'}
+
+Please confirm this appointment.`;
+
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappNumber = '918840250583'; // Replace with your actual WhatsApp number
+    
+    // Open WhatsApp
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+  };
+
+  const handleSendViaEmail = () => {
+    // Validate required fields
+    if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
+      setError('Please fill all required fields (Name, Phone, Date, Time) for email booking.');
+      return;
+    }
+
+    // Create email content
+    const emailSubject = `Appointment Request - ${formData.patientName}`;
+    const emailBody = `New Appointment Request:
+
+Patient Details:
+Name: ${formData.patientName}
+Email: ${formData.email || 'Not provided'}
+Phone: ${formData.phone}
+
+Appointment Details:
+Preferred Date: ${formData.appointmentDate}
+Preferred Time: ${formData.appointmentTime}
+Message: ${formData.message || 'No additional message'}
+
+Please confirm this appointment.`;
+
+    const clinicEmail = 'kasaudhankajal48@gmail.com'; // Replace with your clinic email
+    const mailtoLink = `mailto:${clinicEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+  };
 
   if (!isOpen) return null;
 
@@ -106,7 +159,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-2">Appointment Booked!</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-2">Appointment Request Sent!</h3>
             <p className="text-gray-600 mb-6">Thank you for your request. We'll contact you soon to confirm your appointment.</p>
             <button
               onClick={onClose}
@@ -126,7 +179,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <User size={16} className="inline mr-2" />
-                Full Name
+                Full Name *
               </label>
               <input
                 type="text"
@@ -146,7 +199,6 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
                 </label>
                 <input
                   type="email"
-                  required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
@@ -157,7 +209,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone size={16} className="inline mr-2" />
-                  Phone Number
+                  Phone Number *
                 </label>
                 <input
                   type="tel"
@@ -174,7 +226,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Calendar size={16} className="inline mr-2" />
-                  Preferred Date
+                  Preferred Date *
                 </label>
                 <input
                   type="date"
@@ -189,7 +241,7 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Clock size={16} className="inline mr-2" />
-                  Preferred Time
+                  Preferred Time *
                 </label>
                 <select
                   required
@@ -224,21 +276,51 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
               />
             </div>
 
-            <div className="flex gap-3 pt-2">
+            <div className="space-y-4 pt-2">
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={handleSendViaEmail}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-medium flex items-center justify-center gap-3"
+                >
+                  <Send size={20} />
+                  Send via Email
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={handleBookViaWhatsApp}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all font-medium flex items-center justify-center gap-3"
+                >
+                  <MessageCircle size={20} />
+                  Send via WhatsApp
+                </button>
+              </div>
+
+              {/* Cancel Button */}
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg hover:from-amber-600 hover:to-amber-700 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Booking...' : 'Book Appointment'}
-              </button>
+
+              {/* Privacy Policy Text */}
+              <div className="text-center pt-4 border-t border-gray-200">
+                <p className="text-xs text-gray-500">
+                  By submitting this form, you agree to our{' '}
+                  <a href="/privacy-policy" className="text-amber-600 hover:text-amber-700 underline">
+                    privacy policy
+                  </a>{' '}
+                  and{' '}
+                  <a href="/terms-of-service" className="text-amber-600 hover:text-amber-700 underline">
+                    terms of service
+                  </a>
+                  .
+                </p>
+              </div>
             </div>
           </form>
         )}
