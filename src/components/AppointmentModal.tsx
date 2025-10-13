@@ -21,62 +21,67 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  e.preventDefault();
+  setLoading(true);
+  setError('');
 
-    // Validate appointment date (current date: 2025-10-12)
-    const today = new Date().toISOString().split('T')[0];
-    if (formData.appointmentDate < today) {
-      setError('Appointment date cannot be in the past.');
-      setLoading(false);
-      return;
-    }
+  // Validate appointment date
+  const today = new Date().toISOString().split('T')[0];
+  if (formData.appointmentDate < today) {
+    setError('Appointment date cannot be in the past.');
+    setLoading(false);
+    return;
+  }
 
-    try {
-      // Log the data being inserted for debugging
-      const insertData = {
-        name: formData.patientName,
-        email: formData.email,
-        phone: formData.phone,
-        preferred_date: formData.appointmentDate,
-        preferred_time: formData.appointmentTime,
-        message: formData.message,
-        status: 'pending'
-      };
-      console.log('Insert data:', insertData);
+  try {
+    const insertData = {
+      name: formData.patientName,
+      email: formData.email,
+      phone: formData.phone,
+      preferred_date: formData.appointmentDate,
+      preferred_time: formData.appointmentTime,
+      message: formData.message,
+      status: 'pending'
+    };
+    
+    console.log('Insert data:', insertData);
 
-      // Use Supabase SDK to insert appointment
-      const { data, error: insertError } = await supabase
-        .from('appointments')
-        .insert([insertData])
-        .select();
+    const { data, error: insertError } = await supabase
+      .from('appointments')
+      .insert([insertData])
+      .select();
 
-      if (insertError) {
-        console.error('Supabase error:', insertError.message, insertError.details);
-        throw insertError;
+    if (insertError) {
+      console.error('Supabase error:', insertError);
+      
+      // Specific handling for RLS violation
+      if (insertError.code === '42501' || insertError.message.includes('row-level security')) {
+        throw new Error('Permission denied. Please check database policies.');
       }
-
-      setSuccess(true);
-      setFormData({
-        patientName: '',
-        email: '',
-        phone: '',
-        appointmentDate: '',
-        appointmentTime: '',
-        message: ''
-      });
-
-      setTimeout(() => {
-        setSuccess(false);
-        onClose();
-      }, 3000);
-    } catch (err: any) {
-      console.error('Appointment booking error:', err.message, err.details);
-      setError(err.message || 'Failed to book appointment. Please try again.');
-      setLoading(false);
+      
+      throw insertError;
     }
-  };
+
+    setSuccess(true);
+    setFormData({
+      patientName: '',
+      email: '',
+      phone: '',
+      appointmentDate: '',
+      appointmentTime: '',
+      message: ''
+    });
+
+    setTimeout(() => {
+      setSuccess(false);
+      onClose();
+    }, 3000);
+  } catch (err: any) {
+    console.error('Appointment booking error:', err);
+    setError(err.message || 'Failed to book appointment. Please try again.');
+    setLoading(false);
+  }
+};
 
   if (!isOpen) return null;
 
