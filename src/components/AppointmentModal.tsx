@@ -8,9 +8,9 @@ interface AppointmentModalProps {
 }
 
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'service_7tdsb1j', 
-  TEMPLATE_ID: 'template_rvy4i09', 
-  PUBLIC_KEY: '9_Q98f7vrLawfwruS', 
+  SERVICE_ID: 'service_7tdsb1j',
+  TEMPLATE_ID: 'template_zti4l9c',
+  PUBLIC_KEY: '9_Q98f7vrLawfwruS',
 };
 
 const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
@@ -22,30 +22,21 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
     appointmentTime: '',
     message: ''
   });
-  const [loading, setLoading] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  // Initialize EmailJS
-  useEffect(() => {
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-    console.log('EmailJS initialized');
-  }, []);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // This function is not needed anymore since we're using separate buttons
+    // Not needed since we're using separate buttons for WhatsApp and Email
   };
 
   const handleBookViaWhatsApp = () => {
-    // Validate required fields
     if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
       setError('Please fill all required fields (Name, Phone, Date, Time) for WhatsApp booking.');
       return;
     }
 
-    // Create WhatsApp message
     const whatsappMessage = `New Appointment Request:
 
 Patient Details:
@@ -61,20 +52,16 @@ Message: ${formData.message || 'No additional message'}
 Please confirm this appointment.`;
 
     const encodedMessage = encodeURIComponent(whatsappMessage);
-    const whatsappNumber = '916387486751'; // Your WhatsApp number
-    
-    // Open WhatsApp
+    const whatsappNumber = '916387486751';
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
   };
 
   const handleSendViaEmail = async () => {
-    // Validate required fields
     if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
       setError('Please fill all required fields (Name, Phone, Date, Time) for email booking.');
       return;
     }
 
-    // Validate appointment date
     const today = new Date().toISOString().split('T')[0];
     if (formData.appointmentDate < today) {
       setError('Appointment date cannot be in the past.');
@@ -85,7 +72,6 @@ Please confirm this appointment.`;
     setError('');
 
     try {
-      // Prepare template parameters for EmailJS
       const templateParams = {
         to_email: 'kasaudhankajal51@gmail.com',
         from_name: formData.patientName,
@@ -101,9 +87,9 @@ Please confirm this appointment.`;
         reply_to: formData.email || 'kasaudhankajal51@gmail.com',
       };
 
-      console.log('Sending email with params:', templateParams);
+      console.log('Form Data:', formData);
+      console.log('Template Params:', JSON.stringify(templateParams, null, 2));
 
-      // Send email using EmailJS
       const result = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID,
         EMAILJS_CONFIG.TEMPLATE_ID,
@@ -111,54 +97,50 @@ Please confirm this appointment.`;
         EMAILJS_CONFIG.PUBLIC_KEY
       );
 
-      console.log('Email sent successfully:', result);
+      console.log('EmailJS Response:', result.text, result.status);
 
-      // Show success message
-      setSuccess(true);
-      
-      // Reset form
-      setFormData({
-        patientName: '',
-        email: '',
-        phone: '',
-        appointmentDate: '',
-        appointmentTime: '',
-        message: ''
-      });
-
-      // Close modal after 3 seconds
-      setTimeout(() => {
-        setSuccess(false);
-        onClose();
-      }, 3000);
-
-    } catch (error) {
-      console.error('EmailJS error details:', error);
-      
-      // More specific error messages
-      if (error instanceof Error) {
-        if (error.message.includes('Failed to fetch')) {
-          setError('Network error. Please check your internet connection and try again.');
-        } else if (error.message.includes('Invalid template')) {
-          setError('Email template configuration error. Please contact support.');
-        } else if (error.message.includes('Public key is not valid')) {
-          setError('Email service configuration error. Please contact support.');
-        } else {
-          setError(`Failed to send email: ${error.message}`);
-        }
+      if (result.status === 200) {
+        setSuccess(true);
+        setFormData({
+          patientName: '',
+          email: '',
+          phone: '',
+          appointmentDate: '',
+          appointmentTime: '',
+          message: ''
+        });
+        setTimeout(() => {
+          setSuccess(false);
+          onClose();
+        }, 3000);
       } else {
-        setError('Failed to send email. Please try again or use WhatsApp instead.');
+        throw new Error('EmailJS response status not OK');
+      }
+    } catch (error: any) {
+      console.error('EmailJS error details:', {
+        message: error.message,
+        text: error.text,
+        status: error.status,
+        response: error.response
+      });
+      if (error.text?.includes('Failed to fetch')) {
+        setError('Network error. Please check your internet connection and try again.');
+      } else if (error.text?.includes('Invalid template')) {
+        setError('Email template configuration error. Please contact support.');
+      } else if (error.text?.includes('Public key is not valid')) {
+        setError('Email service configuration error. Please contact support.');
+      } else {
+        setError(`Failed to send email: ${error.message || 'Unknown error'}`);
       }
     } finally {
       setEmailLoading(false);
     }
   };
 
-  // Test function to debug EmailJS
+  // Test function for debugging EmailJS
   const testEmailJSConnection = async () => {
     try {
       console.log('Testing EmailJS connection...');
-      
       const testParams = {
         to_email: 'kasaudhankajal51@gmail.com',
         from_name: 'Test User',
@@ -180,11 +162,11 @@ Please confirm this appointment.`;
         testParams,
         EMAILJS_CONFIG.PUBLIC_KEY
       );
-      
+
       console.log('Test email sent successfully:', result);
       alert('Test email sent successfully! Check your inbox.');
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Test email failed:', error);
       alert('Test email failed. Check console for details.');
       return false;
@@ -213,7 +195,7 @@ Please confirm this appointment.`;
           <h2 className="text-2xl font-bold text-white">Book an Appointment</h2>
           <p className="text-amber-100 mt-1">Fill in your details and we'll contact you soon</p>
           
-          {/* Debug button - you can remove this in production */}
+          {/* Debug button - remove in production */}
           <button
             onClick={testEmailJSConnection}
             className="mt-2 px-3 py-1 bg-white text-amber-600 text-xs rounded hover:bg-gray-100 transition-colors"
@@ -350,7 +332,6 @@ Please confirm this appointment.`;
             </div>
 
             <div className="space-y-4 pt-2">
-              {/* Action Buttons */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button
                   type="button"
@@ -370,7 +351,7 @@ Please confirm this appointment.`;
                     </>
                   )}
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={handleBookViaWhatsApp}
@@ -381,7 +362,6 @@ Please confirm this appointment.`;
                 </button>
               </div>
 
-              {/* Cancel Button */}
               <button
                 type="button"
                 onClick={onClose}
@@ -390,7 +370,6 @@ Please confirm this appointment.`;
                 Cancel
               </button>
 
-              {/* Privacy Policy Text */}
               <div className="text-center pt-4 border-t border-gray-200">
                 <p className="text-xs text-gray-500">
                   By submitting this form, you agree to our{' '}
@@ -400,8 +379,7 @@ Please confirm this appointment.`;
                   and{' '}
                   <a href="/terms-of-service" className="text-amber-600 hover:text-amber-700 underline">
                     terms of service
-                  </a>
-                  .
+                  </a>.
                 </p>
               </div>
             </div>
