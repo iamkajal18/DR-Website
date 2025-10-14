@@ -196,12 +196,7 @@ Please confirm this appointment.`;
           <p className="text-amber-100 mt-1">Fill in your details and we'll contact you soon</p>
           
           {/* Debug button - remove in production */}
-          <button
-            onClick={testEmailJSConnection}
-            className="mt-2 px-3 py-1 bg-white text-amber-600 text-xs rounded hover:bg-gray-100 transition-colors"
-          >
-            Test Email Connection
-          </button>
+         
         </div>
 
         {success ? (
