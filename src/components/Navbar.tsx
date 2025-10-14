@@ -28,11 +28,7 @@ export default function Navbar() {
     { 
       name: 'Services',  
       path: '/services',
-      dropdown: [
-        { name: 'Consultation', path: '/services/consultation' },
-        { name: 'Treatment Plans', path: '/services/treatment' },
-        { name: 'Health Checkups', path: '/services/checkups' }
-      ]
+    
     },
     { name: 'Doctors', path: '/doctors' },
     { name: 'About', path: '/about' },
