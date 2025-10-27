@@ -1,21 +1,21 @@
-import { useState, FormEvent } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
-import AppointmentModal from '../components/AppointmentModal';
+import { useState, FormEvent } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import AppointmentModal from "../components/AppointmentModal";
 
 const Contact = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({ name: "", email: "", message: "" });
     setTimeout(() => setSubmitted(false), 3000);
   };
 
@@ -31,8 +31,8 @@ const Contact = () => {
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">Contact Us</h1>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-amber-600 mx-auto mb-6"></div>
             <p className="text-lg text-amber-100 max-w-3xl mx-auto">
-              Get in touch with us for consultations, appointments, or any inquiries about
-              our homeopathic services.
+              Get in touch with us for consultations, appointments, or any
+              inquiries about our homeopathic services.
             </p>
           </motion.div>
         </div>
@@ -46,10 +46,12 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Get in Touch
+              </h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Have questions or need assistance? Fill out the form and we'll get back to
-                you as soon as possible.
+                Have questions or need assistance? Fill out the form and we'll
+                get back to you as soon as possible.
               </p>
 
               <div className="space-y-6 mb-8">
@@ -59,8 +61,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+91 638 748 6751</p>
-                    <p className="text-sm text-gray-500 mt-1">Mon-Sat: 9:00 AM - 6:00 PM</p>
+                    <p className="text-gray-600">+91 6392587902</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Mon-Sat: 9:00 AM - 6:00 PM
+                    </p>
                   </div>
                 </div>
 
@@ -70,8 +74,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600 break-all">kasaudhankajal51@gmail.com</p>
-                    <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
+                    <p className="text-gray-600 break-all">
+                      kasaudhankajal51@gmail.com
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      We'll respond within 24 hours
+                    </p>
                   </div>
                 </div>
 
@@ -80,10 +88,14 @@ const Contact = () => {
                     <MapPin className="text-amber-600" size={24} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      Address
+                    </h3>
                     <p className="text-gray-600">
-                      Ratna Homoeo Clinic<br />
-                      Medical District<br />
+                      Ratna Homoeo Clinic
+                      <br />
+                      Medical District
+                      <br />
                       India
                     </p>
                   </div>
@@ -94,9 +106,12 @@ const Contact = () => {
                     <Clock className="text-amber-600" size={24} />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Working Hours</h3>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      Working Hours
+                    </h3>
                     <p className="text-gray-600">
-                      Monday - Saturday: 9:00 AM - 6:00 PM<br />
+                      Monday - Saturday: 9:00 AM - 6:00 PM
+                      <br />
                       Sunday: Closed
                     </p>
                   </div>
@@ -117,7 +132,9 @@ const Contact = () => {
               viewport={{ once: true }}
             >
               <div className="bg-white rounded-2xl shadow-xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  Send us a Message
+                </h3>
 
                 {submitted && (
                   <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
@@ -134,7 +151,9 @@ const Contact = () => {
                       type="text"
                       required
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                       placeholder="Enter your name"
                     />
@@ -148,7 +167,9 @@ const Contact = () => {
                       type="email"
                       required
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                       placeholder="your@email.com"
                     />
@@ -161,7 +182,9 @@ const Contact = () => {
                     <textarea
                       required
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       rows={6}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                       placeholder="Tell us how we can help you..."
@@ -190,7 +213,9 @@ const Contact = () => {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Find Us Here</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Find Us Here
+            </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-amber-600 mx-auto"></div>
           </motion.div>
 
@@ -214,7 +239,10 @@ const Contact = () => {
         </div>
       </section>
 
-      <AppointmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AppointmentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

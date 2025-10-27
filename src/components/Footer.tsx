@@ -1,5 +1,12 @@
-import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Link } from "react-router-dom";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Instagram,
+  Twitter,
+} from "lucide-react";
 
 const Footer = () => {
   return (
@@ -8,8 +15,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* ----- LOGO SECTION ----- */}
           <div>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center gap-3 group flex-shrink-0 mb-4"
             >
               <div className="relative flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 rounded-full bg-gradient-to-r from-amber-400 to-amber-600 p-1 shadow-lg group-hover:shadow-xl transition-all duration-300">
@@ -35,56 +42,121 @@ const Footer = () => {
             </Link>
 
             <p className="text-sm text-amber-200">
-              Providing holistic homeopathic care with personalized treatment for over 15 years.
+              Providing holistic homeopathic care with personalized treatment
+              for over 15 years.
             </p>
           </div>
 
           {/* ----- QUICK LINKS ----- */}
           <div>
-            <h4 className="text-lg font-semibold text-amber-500 mb-4">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-amber-500 mb-4">
+              Quick Links
+            </h4>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-sm hover:text-amber-400 transition-colors">Home</Link></li>
-              <li><Link to="/about" className="text-sm hover:text-amber-400 transition-colors">About Us</Link></li>
-              <li><Link to="/doctors" className="text-sm hover:text-amber-400 transition-colors">Our Doctors</Link></li>
-              <li><Link to="/services" className="text-sm hover:text-amber-400 transition-colors">Services</Link></li>
-              <li><Link to="/products" className="text-sm hover:text-amber-400 transition-colors">Products</Link></li>
+              <li>
+                <Link
+                  to="/"
+                  className="text-sm hover:text-amber-400 transition-colors"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-sm hover:text-amber-400 transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/doctors"
+                  className="text-sm hover:text-amber-400 transition-colors"
+                >
+                  Our Doctors
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services"
+                  className="text-sm hover:text-amber-400 transition-colors"
+                >
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/products"
+                  className="text-sm hover:text-amber-400 transition-colors"
+                >
+                  Products
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* ----- CONTACT INFO ----- */}
           <div>
-            <h4 className="text-lg font-semibold text-amber-500 mb-4">Contact Info</h4>
+            <h4 className="text-lg font-semibold text-amber-500 mb-4">
+              Contact Info
+            </h4>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
-                <Phone size={18} className="text-amber-400 mt-1 flex-shrink-0" />
-                <p className="text-sm">+91 638 748 6751</p>
+                <Phone
+                  size={18}
+                  className="text-amber-400 mt-1 flex-shrink-0"
+                />
+                <p className="text-sm">+91 6392587902</p>
               </li>
               <li className="flex items-start space-x-3">
                 <Mail size={18} className="text-amber-400 mt-1 flex-shrink-0" />
                 <p className="text-sm break-all">kasaudhankajal51@gmail.com</p>
               </li>
               <li className="flex items-start space-x-3">
-                <MapPin size={18} className="text-amber-400 mt-1 flex-shrink-0" />
-                <p className="text-sm">Ratna Homoeo Clinic, Medical District, India</p>
+                <MapPin
+                  size={18}
+                  className="text-amber-400 mt-1 flex-shrink-0"
+                />
+                <p className="text-sm">
+                  Ratna Homoeo Clinic, Medical District, India
+                </p>
               </li>
             </ul>
           </div>
 
           {/* ----- FOLLOW US ----- */}
           <div>
-            <h4 className="text-lg font-semibold text-amber-500 mb-4">Follow Us</h4>
+            <h4 className="text-lg font-semibold text-amber-500 mb-4">
+              Follow Us
+            </h4>
             <div className="flex space-x-4 mb-6">
-              <a href="#" className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all" aria-label="Facebook">
+              <a
+                href="#"
+                className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all"
+                aria-label="Facebook"
+              >
                 <Facebook size={20} />
               </a>
-              <a href="#" className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all" aria-label="Instagram">
+              <a
+                href="#"
+                className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all"
+                aria-label="Instagram"
+              >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all" aria-label="Twitter">
+              <a
+                href="#"
+                className="bg-amber-900 p-2 rounded-full hover:bg-amber-500 hover:text-black transition-all"
+                aria-label="Twitter"
+              >
                 <Twitter size={20} />
               </a>
             </div>
-            <Link to="/privacy-policy" className="text-sm hover:text-amber-400 transition-colors">
+            <Link
+              to="/privacy-policy"
+              className="text-sm hover:text-amber-400 transition-colors"
+            >
               Privacy Policy
             </Link>
           </div>
@@ -93,7 +165,8 @@ const Footer = () => {
         {/* ----- COPYRIGHT SECTION ----- */}
         <div className="border-t border-amber-900 mt-8 pt-6 text-center">
           <p className="text-sm text-amber-200">
-            &copy; {new Date().getFullYear()} Ratna Homoeo Clinic. All rights reserved.
+            &copy; {new Date().getFullYear()} Ratna Homoeo Clinic. All rights
+            reserved.
           </p>
         </div>
       </div>

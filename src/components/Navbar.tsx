@@ -172,7 +172,7 @@ export default function Navbar() {
             <div className="ml-3 relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 to-amber-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
               <a
-                href="tel:+916387486751"
+                href="tel:+916392587902"
                 className="relative flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-3 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm"
               >
                 <Phone className="h-3 w-3" />
@@ -199,7 +199,7 @@ export default function Navbar() {
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 to-amber-600 rounded blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
               <a
-                href="tel:+916387486751"
+                href="tel:+916392587902"
                 className="relative flex items-center space-x-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-2 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-xs"
               >
                 <Phone className="h-3 w-3" />
@@ -275,7 +275,7 @@ export default function Navbar() {
           
           {/* Mobile Call Button */}
           <a
-            href="tel:+916387486751"
+            href="tel:+916392587902"
             className="flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-3 rounded-lg shadow-lg mt-4 hover:shadow-xl transition-all duration-300"
             onClick={() => setIsOpen(false)}
           >

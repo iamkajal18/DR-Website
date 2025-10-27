@@ -52,7 +52,7 @@ Message: ${formData.message || 'No additional message'}
 Please confirm this appointment.`;
 
     const encodedMessage = encodeURIComponent(whatsappMessage);
-    const whatsappNumber = '916387486751';
+    const whatsappNumber = '916392587902';
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
   };
 
