@@ -14,6 +14,16 @@ const Contact = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    // WhatsApp number (replace with your number, remove spaces and +)
+    const phoneNumber = "916392587902"; // Your phone number: +91 6392587902
+    const whatsappMessage = `Name: ${formData.name}%0AEmail: ${formData.email}%0AMessage: ${formData.message}`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, "_blank");
+
+    // Show submission feedback
     setSubmitted(true);
     setFormData({ name: "", email: "", message: "" });
     setTimeout(() => setSubmitted(false), 3000);
@@ -50,8 +60,8 @@ const Contact = () => {
                 Get in Touch
               </h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Have questions or need assistance? Fill out the form and we'll
-                get back to you as soon as possible.
+                Have questions or need assistance? Fill out the form or contact us
+                via WhatsApp, and we'll get back to you as soon as possible.
               </p>
 
               <div className="space-y-6 mb-8">
@@ -138,7 +148,7 @@ const Contact = () => {
 
                 {submitted && (
                   <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
-                    Thank you! We'll get back to you soon.
+                    Message sent! You'll be redirected to WhatsApp.
                   </div>
                 )}
 
@@ -196,7 +206,7 @@ const Contact = () => {
                     className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white py-3 rounded-lg hover:from-amber-600 hover:to-amber-700 transition-all font-medium flex items-center justify-center space-x-2"
                   >
                     <Send size={20} />
-                    <span>Send Message</span>
+                    <span>Send Message via WhatsApp</span>
                   </button>
                 </form>
               </div>
