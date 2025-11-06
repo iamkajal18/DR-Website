@@ -12,7 +12,7 @@ export interface Doctor {
 export const doctors: Doctor[] = [
   {
     id: '1',
-    name: 'Dr. Ratna Sharma',
+    name: 'Dr. Shyam Ji Srivasta',
     specialization: 'Classical Homeopathy',
     qualifications: 'BHMS, MD (Hom)',
     experience: '15+ Years',
@@ -22,12 +22,12 @@ export const doctors: Doctor[] = [
       'Expert in constitutional homeopathy',
       'Regular speaker at homeopathic conferences'
     ],
-    image: 'https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg?auto=compress&cs=tinysrgb&w=400',
+    image: '/images/Ratna_papa.jpeg',
     personalNote: 'I believe in treating the person as a whole, not just the disease. Every patient is unique and deserves personalized care and attention.'
   },
   {
     id: '2',
-    name: 'Dr. Anjali Verma',
+    name: 'Dr. Devina Vachaspati',
     specialization: 'Pediatric Homeopathy',
     qualifications: 'BHMS, CCH',
     experience: '10+ Years',
@@ -37,7 +37,7 @@ export const doctors: Doctor[] = [
       'Published research on pediatric homeopathy',
       'Certified in child psychology'
     ],
-    image: 'https://images.pexels.com/photos/4173239/pexels-photo-4173239.jpeg?auto=compress&cs=tinysrgb&w=400',
+    image: '/images/Ratna.jpeg',
     personalNote: 'Children are precious and their health should be nurtured naturally. I focus on building immunity and ensuring holistic development.'
   },
   {

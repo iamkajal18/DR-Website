@@ -18,7 +18,9 @@ const Contact = () => {
     // WhatsApp number (replace with your number, remove spaces and +)
     const phoneNumber = "916392587902"; // Your phone number: +91 6392587902
     const whatsappMessage = `Name: ${formData.name}%0AEmail: ${formData.email}%0AMessage: ${formData.message}`;
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
 
     // Open WhatsApp in a new tab
     window.open(whatsappUrl, "_blank");
@@ -60,8 +62,8 @@ const Contact = () => {
                 Get in Touch
               </h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Have questions or need assistance? Fill out the form or contact us
-                via WhatsApp, and we'll get back to you as soon as possible.
+                Have questions or need assistance? Fill out the form or contact
+                us via WhatsApp, and we'll get back to you as soon as possible.
               </p>
 
               <div className="space-y-6 mb-8">
@@ -85,7 +87,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
                     <p className="text-gray-600 break-all">
-                      kasaudhankajal51@gmail.com
+                      drdevina161@gmail.com
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       We'll respond within 24 hours

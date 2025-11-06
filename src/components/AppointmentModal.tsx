@@ -1,6 +1,16 @@
-import { useState, FormEvent, useEffect } from 'react';
-import { X, Calendar, Clock, User, Mail, Phone, MessageSquare, MessageCircle, Send } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { useState, FormEvent, useEffect } from "react";
+import {
+  X,
+  Calendar,
+  Clock,
+  User,
+  Mail,
+  Phone,
+  MessageSquare,
+  MessageCircle,
+  Send,
+} from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -8,23 +18,23 @@ interface AppointmentModalProps {
 }
 
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'service_7tdsb1j',
-  TEMPLATE_ID: 'template_zti4l9c',
-  PUBLIC_KEY: '9_Q98f7vrLawfwruS',
+  SERVICE_ID: "service_7tdsb1j",
+  TEMPLATE_ID: "template_zti4l9c",
+  PUBLIC_KEY: "9_Q98f7vrLawfwruS",
 };
 
 const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   const [formData, setFormData] = useState({
-    patientName: '',
-    email: '',
-    phone: '',
-    appointmentDate: '',
-    appointmentTime: '',
-    message: ''
+    patientName: "",
+    email: "",
+    phone: "",
+    appointmentDate: "",
+    appointmentTime: "",
+    message: "",
   });
   const [emailLoading, setEmailLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -32,8 +42,15 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
   };
 
   const handleBookViaWhatsApp = () => {
-    if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
-      setError('Please fill all required fields (Name, Phone, Date, Time) for WhatsApp booking.');
+    if (
+      !formData.patientName ||
+      !formData.phone ||
+      !formData.appointmentDate ||
+      !formData.appointmentTime
+    ) {
+      setError(
+        "Please fill all required fields (Name, Phone, Date, Time) for WhatsApp booking."
+      );
       return;
     }
 
@@ -41,54 +58,64 @@ const AppointmentModal = ({ isOpen, onClose }: AppointmentModalProps) => {
 
 Patient Details:
 Name: ${formData.patientName}
-Email: ${formData.email || 'Not provided'}
+Email: ${formData.email || "Not provided"}
 Phone: ${formData.phone}
 
 Appointment Details:
 Preferred Date: ${formData.appointmentDate}
 Preferred Time: ${formData.appointmentTime}
-Message: ${formData.message || 'No additional message'}
+Message: ${formData.message || "No additional message"}
 
 Please confirm this appointment.`;
 
     const encodedMessage = encodeURIComponent(whatsappMessage);
-    const whatsappNumber = '916392587902';
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+    const whatsappNumber = "916392587902";
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+      "_blank"
+    );
   };
 
   const handleSendViaEmail = async () => {
-    if (!formData.patientName || !formData.phone || !formData.appointmentDate || !formData.appointmentTime) {
-      setError('Please fill all required fields (Name, Phone, Date, Time) for email booking.');
+    if (
+      !formData.patientName ||
+      !formData.phone ||
+      !formData.appointmentDate ||
+      !formData.appointmentTime
+    ) {
+      setError(
+        "Please fill all required fields (Name, Phone, Date, Time) for email booking."
+      );
       return;
     }
 
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     if (formData.appointmentDate < today) {
-      setError('Appointment date cannot be in the past.');
+      setError("Appointment date cannot be in the past.");
       return;
     }
 
     setEmailLoading(true);
-    setError('');
+    setError("");
 
     try {
       const templateParams = {
-        to_email: 'kasaudhankajal51@gmail.com',
+        to_email: "drdevina161@gmail.com",
         from_name: formData.patientName,
-        from_email: formData.email || 'no-reply@clinic.com',
+        from_email: formData.email || "no-reply@clinic.com",
         patient_name: formData.patientName,
-        patient_email: formData.email || 'Not provided',
+        patient_email: formData.email || "Not provided",
         patient_phone: formData.phone,
         appointment_date: formData.appointmentDate,
         appointment_time: formData.appointmentTime,
-        patient_message: formData.message || 'No additional message',
+        patient_message: formData.message || "No additional message",
         subject: `New Appointment Request - ${formData.patientName}`,
-        clinic_name: 'Your Clinic Name',
-        reply_to: formData.email || 'kasaudhankajal51@gmail.com',
+        clinic_name: "Your Clinic Name",
+        reply_to: formData.email || "drdevina161@gmail.com",
       };
 
-      console.log('Form Data:', formData);
-      console.log('Template Params:', JSON.stringify(templateParams, null, 2));
+      console.log("Form Data:", formData);
+      console.log("Template Params:", JSON.stringify(templateParams, null, 2));
 
       const result = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID,
@@ -97,40 +124,42 @@ Please confirm this appointment.`;
         EMAILJS_CONFIG.PUBLIC_KEY
       );
 
-      console.log('EmailJS Response:', result.text, result.status);
+      console.log("EmailJS Response:", result.text, result.status);
 
       if (result.status === 200) {
         setSuccess(true);
         setFormData({
-          patientName: '',
-          email: '',
-          phone: '',
-          appointmentDate: '',
-          appointmentTime: '',
-          message: ''
+          patientName: "",
+          email: "",
+          phone: "",
+          appointmentDate: "",
+          appointmentTime: "",
+          message: "",
         });
         setTimeout(() => {
           setSuccess(false);
           onClose();
         }, 3000);
       } else {
-        throw new Error('EmailJS response status not OK');
+        throw new Error("EmailJS response status not OK");
       }
     } catch (error: any) {
-      console.error('EmailJS error details:', {
+      console.error("EmailJS error details:", {
         message: error.message,
         text: error.text,
         status: error.status,
-        response: error.response
+        response: error.response,
       });
-      if (error.text?.includes('Failed to fetch')) {
-        setError('Network error. Please check your internet connection and try again.');
-      } else if (error.text?.includes('Invalid template')) {
-        setError('Email template configuration error. Please contact support.');
-      } else if (error.text?.includes('Public key is not valid')) {
-        setError('Email service configuration error. Please contact support.');
+      if (error.text?.includes("Failed to fetch")) {
+        setError(
+          "Network error. Please check your internet connection and try again."
+        );
+      } else if (error.text?.includes("Invalid template")) {
+        setError("Email template configuration error. Please contact support.");
+      } else if (error.text?.includes("Public key is not valid")) {
+        setError("Email service configuration error. Please contact support.");
       } else {
-        setError(`Failed to send email: ${error.message || 'Unknown error'}`);
+        setError(`Failed to send email: ${error.message || "Unknown error"}`);
       }
     } finally {
       setEmailLoading(false);
@@ -140,20 +169,20 @@ Please confirm this appointment.`;
   // Test function for debugging EmailJS
   const testEmailJSConnection = async () => {
     try {
-      console.log('Testing EmailJS connection...');
+      console.log("Testing EmailJS connection...");
       const testParams = {
-        to_email: 'kasaudhankajal51@gmail.com',
-        from_name: 'Test User',
-        from_email: 'test@example.com',
-        patient_name: 'Test Patient',
-        patient_email: 'test@example.com',
-        patient_phone: '+1234567890',
-        appointment_date: new Date().toISOString().split('T')[0],
-        appointment_time: '10:00 AM - 11:00 AM',
-        patient_message: 'This is a test message from the appointment system',
-        subject: 'Test Appointment Request',
-        clinic_name: 'Test Clinic',
-        reply_to: 'test@example.com'
+        to_email: "drdevina161@gmail.com",
+        from_name: "Test User",
+        from_email: "test@example.com",
+        patient_name: "Test Patient",
+        patient_email: "test@example.com",
+        patient_phone: "+1234567890",
+        appointment_date: new Date().toISOString().split("T")[0],
+        appointment_time: "10:00 AM - 11:00 AM",
+        patient_message: "This is a test message from the appointment system",
+        subject: "Test Appointment Request",
+        clinic_name: "Test Clinic",
+        reply_to: "test@example.com",
       };
 
       const result = await emailjs.send(
@@ -163,12 +192,12 @@ Please confirm this appointment.`;
         EMAILJS_CONFIG.PUBLIC_KEY
       );
 
-      console.log('Test email sent successfully:', result);
-      alert('Test email sent successfully! Check your inbox.');
+      console.log("Test email sent successfully:", result);
+      alert("Test email sent successfully! Check your inbox.");
       return true;
     } catch (error: any) {
-      console.error('Test email failed:', error);
-      alert('Test email failed. Check console for details.');
+      console.error("Test email failed:", error);
+      alert("Test email failed. Check console for details.");
       return false;
     }
   };
@@ -176,7 +205,7 @@ Please confirm this appointment.`;
   // Clear error when form data changes
   useEffect(() => {
     if (error) {
-      setError('');
+      setError("");
     }
   }, [formData]);
 
@@ -193,21 +222,38 @@ Please confirm this appointment.`;
             <X size={24} />
           </button>
           <h2 className="text-2xl font-bold text-white">Book an Appointment</h2>
-          <p className="text-amber-100 mt-1">Fill in your details and we'll contact you soon</p>
-          
+          <p className="text-amber-100 mt-1">
+            Fill in your details and we'll contact you soon
+          </p>
+
           {/* Debug button - remove in production */}
-         
         </div>
 
         {success ? (
           <div className="flex flex-col items-center justify-center p-12 text-center">
             <div className="bg-green-100 rounded-full p-4 mb-6">
-              <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              <svg
+                className="w-12 h-12 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 13l4 4L19 7"
+                ></path>
               </svg>
             </div>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-2">Appointment Request Sent!</h3>
-            <p className="text-gray-600 mb-6">Thank you for your request. We'll contact you soon to confirm your appointment.</p>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+              Appointment Request Sent!
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Thank you for your request. We'll contact you soon to confirm your
+              appointment.
+            </p>
             <button
               onClick={onClose}
               className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg hover:from-amber-600 hover:to-amber-700 transition-all font-medium"
@@ -219,8 +265,17 @@ Please confirm this appointment.`;
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-start">
-                <svg className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 <span>{error}</span>
               </div>
@@ -235,7 +290,9 @@ Please confirm this appointment.`;
                 type="text"
                 required
                 value={formData.patientName}
-                onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, patientName: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
@@ -250,7 +307,9 @@ Please confirm this appointment.`;
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="your@email.com"
                 />
@@ -265,7 +324,9 @@ Please confirm this appointment.`;
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="+91 XXXXX XXXXX"
                 />
@@ -282,8 +343,13 @@ Please confirm this appointment.`;
                   type="date"
                   required
                   value={formData.appointmentDate}
-                  onChange={(e) => setFormData({ ...formData, appointmentDate: e.target.value })}
-                  min={new Date().toISOString().split('T')[0]}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      appointmentDate: e.target.value,
+                    })
+                  }
+                  min={new Date().toISOString().split("T")[0]}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 />
               </div>
@@ -296,18 +362,39 @@ Please confirm this appointment.`;
                 <select
                   required
                   value={formData.appointmentTime}
-                  onChange={(e) => setFormData({ ...formData, appointmentTime: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      appointmentTime: e.target.value,
+                    })
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 >
                   <option value="">Select time</option>
-                  <option value="09:00 AM - 10:00 AM">09:00 AM - 10:00 AM</option>
-                  <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
-                  <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
-                  <option value="12:00 PM - 01:00 PM">12:00 PM - 01:00 PM</option>
-                  <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</option>
-                  <option value="03:00 PM - 04:00 PM">03:00 PM - 04:00 PM</option>
-                  <option value="04:00 PM - 05:00 PM">04:00 PM - 05:00 PM</option>
-                  <option value="05:00 PM - 06:00 PM">05:00 PM - 06:00 PM</option>
+                  <option value="09:00 AM - 10:00 AM">
+                    09:00 AM - 10:00 AM
+                  </option>
+                  <option value="10:00 AM - 11:00 AM">
+                    10:00 AM - 11:00 AM
+                  </option>
+                  <option value="11:00 AM - 12:00 PM">
+                    11:00 AM - 12:00 PM
+                  </option>
+                  <option value="12:00 PM - 01:00 PM">
+                    12:00 PM - 01:00 PM
+                  </option>
+                  <option value="02:00 PM - 03:00 PM">
+                    02:00 PM - 03:00 PM
+                  </option>
+                  <option value="03:00 PM - 04:00 PM">
+                    03:00 PM - 04:00 PM
+                  </option>
+                  <option value="04:00 PM - 05:00 PM">
+                    04:00 PM - 05:00 PM
+                  </option>
+                  <option value="05:00 PM - 06:00 PM">
+                    05:00 PM - 06:00 PM
+                  </option>
                 </select>
               </div>
             </div>
@@ -319,7 +406,9 @@ Please confirm this appointment.`;
               </label>
               <textarea
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
                 rows={4}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                 placeholder="Tell us about your symptoms or reason for visit..."
@@ -367,14 +456,21 @@ Please confirm this appointment.`;
 
               <div className="text-center pt-4 border-t border-gray-200">
                 <p className="text-xs text-gray-500">
-                  By submitting this form, you agree to our{' '}
-                  <a href="/privacy-policy" className="text-amber-600 hover:text-amber-700 underline">
+                  By submitting this form, you agree to our{" "}
+                  <a
+                    href="/privacy-policy"
+                    className="text-amber-600 hover:text-amber-700 underline"
+                  >
                     privacy policy
-                  </a>{' '}
-                  and{' '}
-                  <a href="/terms-of-service" className="text-amber-600 hover:text-amber-700 underline">
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="/terms-of-service"
+                    className="text-amber-600 hover:text-amber-700 underline"
+                  >
                     terms of service
-                  </a>.
+                  </a>
+                  .
                 </p>
               </div>
             </div>

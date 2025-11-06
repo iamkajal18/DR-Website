@@ -201,7 +201,7 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-6">
                   <p className="font-semibold mb-2">Ratna Homoeo Clinic</p>
-                  <p>Email: kasaudhankajal51@gmail.com</p>
+                  <p>Email: drdevina161@gmail.com</p>
                   <p>Phone: +91 6392587902</p>
                   <p>Address: Medical District, India</p>
                 </div>

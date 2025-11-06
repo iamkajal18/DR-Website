@@ -35,29 +35,23 @@ export const products: Product[] = [
     description: 'Constitutional remedy for building immunity, supporting healthy growth, and treating calcium deficiency disorders.',
     image: 'https://images.pexels.com/photos/5910955/pexels-photo-5910955.jpeg?auto=compress&cs=tinysrgb&w=400'
   },
+ 
   {
     id: '5',
-    name: 'Pulsatilla',
-    category: 'Women\'s Health',
-    description: 'Gentle remedy for hormonal imbalances, menstrual irregularities, mood swings, and pregnancy-related issues.',
-    image: 'https://images.pexels.com/photos/6824584/pexels-photo-6824584.jpeg?auto=compress&cs=tinysrgb&w=400'
-  },
-  {
-    id: '6',
     name: 'Rhus Tox',
     category: 'Joint & Muscle Care',
     description: 'Excellent for arthritis, stiffness, joint pain, and muscle strains. Improves mobility and reduces discomfort.',
     image: 'https://images.pexels.com/photos/5910966/pexels-photo-5910966.jpeg?auto=compress&cs=tinysrgb&w=400'
   },
   {
-    id: '7',
+    id: '6',
     name: 'Ignatia',
     category: 'Emotional Wellness',
     description: 'Effective for grief, anxiety, emotional stress, mood disorders, and nervous system imbalances.',
     image: 'https://images.pexels.com/photos/4041279/pexels-photo-4041279.jpeg?auto=compress&cs=tinysrgb&w=400'
   },
   {
-    id: '8',
+    id: '7',
     name: 'Sulphur',
     category: 'Skin Treatment',
     description: 'Powerful remedy for skin conditions like eczema, psoriasis, itching, and chronic dermatological issues.',
