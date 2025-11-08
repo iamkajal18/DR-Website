@@ -164,10 +164,11 @@ const Footer = () => {
 
         {/* ----- COPYRIGHT SECTION ----- */}
         <div className="border-t border-amber-900 mt-8 pt-6 text-center">
-          <p className="text-sm text-amber-200">
-            &copy; {new Date().getFullYear()} Ratna Homoeo Clinic. All rights
-            reserved.
-          </p>
+        <p className="text-sm text-amber-200">
+  &copy; {new Date().getFullYear()} <span className="font-semibold">Ratna Homoeo Clinic</span>. All rights reserved. 
+  <span className="block sm:inline"> Designed & Developed by <span className="font-medium text-white hover:text-amber-300 transition-colors">Shubham Infotech</span>.</span>
+</p>
+
         </div>
       </div>
     </footer>

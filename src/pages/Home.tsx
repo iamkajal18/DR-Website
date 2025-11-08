@@ -194,7 +194,7 @@ export default function Home() {
               Experienced homeopathic practitioners dedicated to your health
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 justify-center">
             {doctors.map((doctor, index) => (
               <div 
                 key={doctor.id} 
@@ -205,7 +205,7 @@ export default function Home() {
                   <img
                     src={doctor.image}
                     alt={doctor.name}
-                    className="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-70 object-cover transform group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-amber-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </div>
