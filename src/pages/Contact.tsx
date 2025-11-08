@@ -104,11 +104,11 @@ const Contact = () => {
                       Address
                     </h3>
                     <p className="text-gray-600">
-                      Ratna Homoeo Clinic
+                      8X8M+9W7, chitupur chandva, near current coaching classes,
                       <br />
-                      Medical District
+                      Chandua Chhittupur, Shivpurwa, Varanasi, Uttar Pradesh 221002
                       <br />
-                      India
+                      
                     </p>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ const Contact = () => {
             className="rounded-2xl overflow-hidden shadow-2xl"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509374!2d-122.41941548468174!3d37.77492977975903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1234567890123"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26110.645371316095!2d82.94663027431642!3d25.3159508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2dda5f24fb1f%3A0x6ac72a2ac37f85fd!2sRatna%20Homoeo%20clinic!5e1!3m2!1sen!2sbr!4v1762581462958!5m2!1sen!2sbr"
               width="100%"
               height="450"
               style={{ border: 0 }}

@@ -228,6 +228,80 @@ export default function Home() {
         </div>
       </section>
 
+            
+           {/* Gallery Section - Horizontal Scroll Row */}
+      <section 
+        ref={addToRefs}
+        className="py-16 bg-white animate-fade-in-up"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 animate-slide-in-down">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Clinic Gallery
+            </h2>
+            <p className="text-lg text-gray-600">
+              Take a glimpse of our healing environment and patient care
+            </p>
+          </div>
+
+          {/* Horizontal Scroll Container */}
+          <div className="relative group">
+            <div 
+              className="overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              <div className="flex gap-6 px-2 py-4">
+                {[
+                  "/images/Ratna1.jpeg",
+                  "/images/Ratna2.jpeg",
+                  "/images/Ratna3.jpeg",
+                  "/images/Ratna4.jpeg"
+                ].map((src, index) => (
+                  <div
+                    key={index}
+                    className="flex-none w-80 h-60 snap-center animate-stagger-fade-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
+                      <img
+                        src={src}
+                        alt={`Clinic gallery ${index + 1}`}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                        <p className="text-white text-sm font-semibold">Healing Space #{index + 1}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Left Arrow */}
+            <button
+              onClick={() => {
+                const container = document.querySelector('.overflow-x-auto');
+                if (container) container.scrollBy({ left: -320, behavior: 'smooth' });
+              }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-amber-50 hover:scale-110"
+            >
+              <ArrowRight className="h-6 w-6 text-amber-600 rotate-180" />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={() => {
+                const container = document.querySelector('.overflow-x-auto');
+                if (container) container.scrollBy({ left: 320, behavior: 'smooth' });
+              }}
+              className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-amber-50 hover:scale-110"
+            >
+              <ArrowRight className="h-6 w-6 text-amber-600" />
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section with Icon Animation */}
       <section 
         ref={addToRefs}

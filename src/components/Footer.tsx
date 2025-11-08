@@ -119,7 +119,7 @@ const Footer = () => {
                   className="text-amber-400 mt-1 flex-shrink-0"
                 />
                 <p className="text-sm">
-                  Ratna Homoeo Clinic, Medical District, India
+                 address-8X8M+9W7, chitupur chandva, near current coaching classes, Chandua Chhittupur, Shivpurwa, Varanasi, Uttar Pradesh 221002
                 </p>
               </li>
             </ul>

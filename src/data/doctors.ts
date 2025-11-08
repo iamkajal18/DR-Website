@@ -28,9 +28,9 @@ export const doctors: Doctor[] = [
   {
     id: '2',
     name: 'Dr. Devina Vachaspati',
-    specialization: 'Pediatric Homeopathy',
+    specialization: 'Dermatological care Homeopathy',
     qualifications: 'BHMS, CCH',
-    experience: '10+ Years',
+    experience: '6+ Years',
     achievements: [
       'Specialist in child healthcare',
       'Expert in developmental disorders',
