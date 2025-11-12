@@ -268,7 +268,7 @@ export default function Home() {
       </section>
 
       {/* ---------- GALLERY (horizontal scroll) ---------- */}
-      <section className="py-8 sm:py-12 md:py-16 bg-white">
+     <section className="py-8 sm:py-12 md:py-16 bg-white">
   <div ref={addToRefs} className="animate-fade-in-up">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-8 sm:mb-10 md:mb-12">
@@ -294,7 +294,7 @@ export default function Home() {
             ].map((src, i) => (
               <div 
                 key={i} 
-                className="flex-none w-[85vw] sm:w-[70vw] md:w-[500px] lg:w-auto h-[240px] sm:h-[280px] md:h-[320px] lg:h-[280px] snap-center lg:snap-align-none"
+                className="flex-none w-[280px] sm:w-[320px] md:w-[400px] lg:w-auto h-[200px] sm:h-[240px] md:h-[280px] lg:h-[280px] snap-center lg:snap-align-none"
               >
                 <div className="relative group/item overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
                   <img
@@ -313,12 +313,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll arrows - only visible on small/medium screens */}
+        {/* Scroll arrows - visible on all screens except large */}
         <button
           type="button"
           onClick={() => {
             const c = document.querySelector('.overflow-x-auto');
-            c?.scrollBy({ left: -window.innerWidth * 0.8, behavior: 'smooth' });
+            c?.scrollBy({ left: -300, behavior: 'smooth' });
           }}
           className="lg:hidden absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
           aria-label="Scroll left"
@@ -330,7 +330,7 @@ export default function Home() {
           type="button"
           onClick={() => {
             const c = document.querySelector('.overflow-x-auto');
-            c?.scrollBy({ left: window.innerWidth * 0.8, behavior: 'smooth' });
+            c?.scrollBy({ left: 300, behavior: 'smooth' });
           }}
           className="lg:hidden absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
           aria-label="Scroll right"
