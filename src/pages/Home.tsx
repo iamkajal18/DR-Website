@@ -268,74 +268,89 @@ export default function Home() {
       </section>
 
       {/* ---------- GALLERY (horizontal scroll) ---------- */}
-      <section className="py-16 bg-white">
-        <div ref={addToRefs} className="animate-fade-in-up">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Clinic Gallery
-              </h2>
-              <p className="text-lg text-gray-600">
-                Take a glimpse of our healing environment and patient care
-              </p>
-            </div>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+  <div ref={addToRefs} className="animate-fade-in-up">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-8 sm:mb-10 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">
+          Clinic Gallery
+        </h2>
+        <p className="text-base sm:text-lg text-gray-600 px-4">
+          Take a glimpse of our healing environment and patient care
+        </p>
+      </div>
 
-            <div className="relative group">
-              <div
-                className="overflow-x-auto scrollbar-hide snap-x snap-mandatory"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      <div className="relative group">
+        <div
+          className="overflow-x-auto lg:overflow-visible scrollbar-hide snap-x snap-mandatory lg:snap-none -mx-4 sm:mx-0"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0 py-4">
+            {[
+              '/images/Ratna1.jpeg',
+              '/images/Ratna2.jpeg',
+              '/images/Ratna3.jpeg',
+              '/images/Ratna4.jpeg',
+            ].map((src, i) => (
+              <div 
+                key={i} 
+                className="flex-none w-[85vw] sm:w-[70vw] md:w-[500px] lg:w-auto h-[240px] sm:h-[280px] md:h-[320px] lg:h-[280px] snap-center lg:snap-align-none"
               >
-                <div className="flex gap-6 px-2 py-4">
-                  {[
-                    '/images/Ratna1.jpeg',
-                    '/images/Ratna2.jpeg',
-                    '/images/Ratna3.jpeg',
-                    '/images/Ratna4.jpeg',
-                  ].map((src, i) => (
-                    <div key={i} className="flex-none w-80 h-60 snap-center">
-                      <div className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
-                        <img
-                          src={src}
-                          alt={`Clinic gallery ${i + 1}`}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 pointer-events-none">
-                          <p className="text-white text-sm font-semibold">
-                            Healing Space #{i + 1}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="relative group/item overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
+                  <img
+                    src={src}
+                    alt={`Clinic gallery ${i + 1}`}
+                    className="w-full h-full object-cover transform group-hover/item:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex items-end p-3 sm:p-4 pointer-events-none">
+                    <p className="text-white text-sm font-semibold">
+                      Healing Space #{i + 1}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              {/* scroll arrows */}
-              <button
-                type="button"
-                onClick={() => {
-                  const c = document.querySelector('.overflow-x-auto');
-                  c?.scrollBy({ left: -320, behavior: 'smooth' });
-                }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
-              >
-                <ArrowRight className="h-6 w-6 text-amber-600 rotate-180 pointer-events-none" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const c = document.querySelector('.overflow-x-auto');
-                  c?.scrollBy({ left: 320, behavior: 'smooth' });
-                }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
-              >
-                <ArrowRight className="h-6 w-6 text-amber-600 pointer-events-none" />
-              </button>
-            </div>
+            ))}
           </div>
         </div>
-      </section>
+
+        {/* Scroll arrows - only visible on small/medium screens */}
+        <button
+          type="button"
+          onClick={() => {
+            const c = document.querySelector('.overflow-x-auto');
+            c?.scrollBy({ left: -window.innerWidth * 0.8, behavior: 'smooth' });
+          }}
+          className="lg:hidden absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
+          aria-label="Scroll left"
+        >
+          <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 rotate-180 pointer-events-none" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            const c = document.querySelector('.overflow-x-auto');
+            c?.scrollBy({ left: window.innerWidth * 0.8, behavior: 'smooth' });
+          }}
+          className="lg:hidden absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
+          aria-label="Scroll right"
+        >
+          <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 pointer-events-none" />
+        </button>
+      </div>
+
+      {/* Mobile swipe indicator */}
+      <div className="flex lg:hidden justify-center mt-4 gap-1.5">
+        {[0, 1, 2, 3].map((dot) => (
+          <div 
+            key={dot}
+            className={`w-2 h-2 rounded-full ${dot === 0 ? 'bg-amber-600' : 'bg-gray-300'}`}
+          ></div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ---------- SERVICES (4 cards + Show More) ---------- */}
       <section className="py-16 bg-white">
