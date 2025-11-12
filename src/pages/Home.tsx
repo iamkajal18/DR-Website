@@ -287,7 +287,7 @@ export default function Home() {
           className="overflow-x-auto lg:overflow-visible scrollbar-hide snap-x snap-mandatory lg:snap-none -mx-4 sm:mx-0"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0">
+         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0">
   {[
     '/images/Ratna1.jpeg',
     '/images/Ratna2.jpeg',
@@ -395,7 +395,7 @@ export default function Home() {
 
           </div>
         </div>
-        <div className=' mb-20 text-center text-orange-400'>
+        <div className=' mb-20 text-center text-orange-400 sm:mt-7'>
                         <Link
   to="/services"
   style={{ position: 'relative', zIndex: 50 }}
