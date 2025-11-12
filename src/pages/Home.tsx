@@ -1,6 +1,7 @@
 /* src/pages/Home.tsx */
 import { useState, useEffect, useRef } from 'react';
 import { Link, Links } from 'react-router-dom';
+
 import {
   Calendar,
   Star,
@@ -286,32 +287,32 @@ export default function Home() {
           className="overflow-x-auto lg:overflow-visible scrollbar-hide snap-x snap-mandatory lg:snap-none -mx-4 sm:mx-0"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <div className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0 py-4">
-            {[
-              '/images/Ratna1.jpeg',
-              '/images/Ratna2.jpeg',
-              '/images/Ratna3.jpeg',
-              '/images/Ratna4.jpeg',
-            ].map((src, i) => (
-              <div 
-                key={i} 
-                className="flex-none w-[280px] sm:w-[320px] md:w-[400px] lg:w-auto h-[200px] sm:h-[240px] md:h-[280px] lg:h-[280px] snap-center lg:snap-align-none"
-              >
-                <div className="relative group/item overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
-                  <img
-                    src={src}
-                    alt={`Clinic gallery ${i + 1}`}
-                    className="w-full h-full object-cover transform group-hover/item:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex items-end p-3 sm:p-4 pointer-events-none">
-                    <p className="text-white text-sm font-semibold">
-                      Healing Space #{i + 1}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0">
+  {[
+    '/images/Ratna1.jpeg',
+    '/images/Ratna2.jpeg',
+    '/images/Ratna3.jpeg',
+    '/images/Ratna4.jpeg',
+  ].map((src, i) => (
+    <div 
+      key={i} 
+      className="h-[200px] sm:h-[220px] md:h-[260px] lg:h-[280px]"
+    >
+      <div className="relative group/item overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
+        <img
+          src={src}
+          alt={`Clinic gallery ${i + 1}`}
+          className="w-full h-full object-cover transform group-hover/item:scale-110 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex items-end p-3 sm:p-4 pointer-events-none">
+          <p className="text-white text-sm font-semibold">
+            Healing Space #{i + 1}
+          </p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
 
         {/* Scroll arrows - visible on all screens except large */}
