@@ -282,6 +282,7 @@ export default function Home() {
 
       <div className="relative group">
         <div
+          id="gallery-scroll-container"
           className="overflow-x-auto lg:overflow-visible scrollbar-hide snap-x snap-mandatory lg:snap-none -mx-4 sm:mx-0"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
@@ -317,8 +318,10 @@ export default function Home() {
         <button
           type="button"
           onClick={() => {
-            const c = document.querySelector('.overflow-x-auto');
-            c?.scrollBy({ left: -300, behavior: 'smooth' });
+            const container = document.getElementById('gallery-scroll-container');
+            if (container) {
+              container.scrollBy({ left: -300, behavior: 'smooth' });
+            }
           }}
           className="lg:hidden absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
           aria-label="Scroll left"
@@ -329,8 +332,10 @@ export default function Home() {
         <button
           type="button"
           onClick={() => {
-            const c = document.querySelector('.overflow-x-auto');
-            c?.scrollBy({ left: 300, behavior: 'smooth' });
+            const container = document.getElementById('gallery-scroll-container');
+            if (container) {
+              container.scrollBy({ left: 300, behavior: 'smooth' });
+            }
           }}
           className="lg:hidden absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-50 hover:scale-110 cursor-pointer z-10"
           aria-label="Scroll right"
