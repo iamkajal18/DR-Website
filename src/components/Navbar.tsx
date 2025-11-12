@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ChevronDown, Star, Clock, AlertCircle } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, Star, Clock, AlertCircle, ArrowRight } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,16 +23,13 @@ export default function Navbar() {
     dropdown?: { name: string; path: string }[];
   };
 
+  // GALLERY ADDED HERE
   const navLinks: NavLink[] = [
     { name: 'Home', path: '/' },
-    { 
-      name: 'Services',  
-      path: '/services',
-    
-    },
+    { name: 'Services', path: '/services' },
     { name: 'Doctors', path: '/doctors' },
     { name: 'About', path: '/about' },
-    { name: 'Products', path: '/products' },
+    { name: 'Gallery', path: '/gallery' }, 
     { name: 'Contact', path: '/contact' }
   ];
 
@@ -48,10 +45,9 @@ export default function Navbar() {
         ? 'bg-white/95 backdrop-blur-md shadow-xl border-b border-amber-100' 
         : 'bg-gradient-to-r from-white to-amber-50/30 shadow-md'
     }`}>
-      {/* Top Announcement Bar - Responsive */}
+      {/* Top Announcement Bar */}
       <div className="bg-gradient-to-r from-amber-500 to-amber-600 text-white py-2 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Desktop Layout */}
           <div className="hidden md:flex justify-between items-center text-sm">
             <div className="flex items-center space-x-2">
               <Star className="h-3 w-3 fill-current" />
@@ -70,7 +66,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Layout */}
           <div className="md:hidden flex flex-col space-y-2 text-center">
             <div className="flex items-center justify-center space-x-2 text-xs">
               <Star className="h-3 w-3 fill-current" />
@@ -94,7 +89,7 @@ export default function Navbar() {
       {/* Main Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo Section - Responsive */}
+          {/* Logo */}
           <Link 
             to="/" 
             className="flex items-center gap-3 group flex-shrink-0"
@@ -108,14 +103,11 @@ export default function Navbar() {
                   className="h-full w-full rounded-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              {/* Animated Ring */}
               <div className="absolute inset-0 rounded-full border-2 border-amber-400/30 animate-pulse"></div>
             </div>
             <div className="flex flex-col">
               <h1 className={`font-bold text-gray-900 transition-all duration-300 ${
-                scrolled 
-                  ? 'text-lg sm:text-xl' 
-                  : 'text-xl sm:text-2xl lg:text-2xl'
+                scrolled ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl lg:text-2xl'
               }`}>
                 Ratna Homoeo Clinic
               </h1>
@@ -150,7 +142,7 @@ export default function Navbar() {
                   )}
                 </Link>
 
-                {/* Dropdown Menu - Opens on Hover */}
+                {/* Dropdown (if needed later) */}
                 {link.dropdown && activeDropdown === link.name && (
                   <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-amber-100 py-2 z-50 animate-in fade-in-0 zoom-in-95">
                     {link.dropdown.map((item) => (
@@ -158,7 +150,6 @@ export default function Navbar() {
                         key={item.path}
                         to={item.path}
                         className="block px-3 py-2 text-sm text-gray-700 hover:text-amber-600 hover:bg-amber-50 transition-colors duration-200 border-l-2 border-transparent hover:border-amber-400 mx-2 rounded-lg"
-                        onMouseEnter={() => setActiveDropdown(link.name)}
                       >
                         {item.name}
                       </Link>
@@ -168,7 +159,7 @@ export default function Navbar() {
               </div>
             ))}
             
-            {/* Call to Action Button */}
+            {/* Call Button */}
             <div className="ml-3 relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 to-amber-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
               <a
@@ -181,9 +172,9 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Tablet Navigation (Hidden on mobile, visible on md and lg) */}
+          {/* Tablet Nav */}
           <div className="hidden md:flex lg:hidden items-center space-x-2">
-            {navLinks.slice(0, 4).map((link) => (
+            {navLinks.slice(0, 5).map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -213,11 +204,7 @@ export default function Navbar() {
             className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-amber-50 transition-colors duration-200"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
@@ -255,7 +242,6 @@ export default function Navbar() {
                 )}
               </div>
               
-              {/* Mobile Dropdown - Opens on Click */}
               {link.dropdown && mobileDropdown === link.name && (
                 <div className="ml-6 space-y-1 mt-1 bg-amber-50/50 rounded-lg p-2">
                   {link.dropdown.map((item) => (
@@ -273,7 +259,6 @@ export default function Navbar() {
             </div>
           ))}
           
-          {/* Mobile Call Button */}
           <a
             href="tel:+916392587902"
             className="flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-3 rounded-lg shadow-lg mt-4 hover:shadow-xl transition-all duration-300"

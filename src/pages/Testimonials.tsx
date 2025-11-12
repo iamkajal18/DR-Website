@@ -6,67 +6,61 @@ const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, threshold: 0.1 });
 
+  // Focused Testimonials: Kidney, Surgery, Gynecology
   const testimonials = [
     {
       id: 1,
-      name: "Priya Sharma",
-      age: 42,
-      condition: "Chronic Migraine",
+      name: "Vikram Singh",
+      age: 52,
+      condition: "Kidney Stones",
       rating: 5,
-      text: "After suffering from migraines for over 10 years, homeopathic treatment at Ratna Clinic changed my life. The personalized approach and natural remedies provided relief I never thought possible.",
-      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
-      treatmentDuration: "6 months",
-      location: "Mumbai"
+      text: "I was suffering from recurrent kidney stones for 5 years. Allopathic medicines gave temporary relief. After 4 months of homeopathic treatment at Ratna Clinic, I passed stones naturally without surgery. No recurrence in 2 years!",
+      treatmentDuration: "4 months",
+      location: "Lucknow"
     },
     {
       id: 2,
-      name: "Rajesh Kumar",
-      age: 58,
-      condition: "Arthritis",
+      name: "Sunita Verma",
+      age: 38,
+      condition: "Post-Surgery Recovery",
       rating: 5,
-      text: "The holistic treatment for my arthritis has been remarkable. Not only did my joint pain reduce significantly, but my overall energy levels improved. Truly life-changing!",
-      image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=600",
-      treatmentDuration: "8 months",
-      location: "Delhi"
+      text: "After my gallbladder surgery, I had severe weakness and indigestion. Homeopathy helped me recover faster, improved digestion, and boosted immunity. I feel stronger than before the surgery!",
+      treatmentDuration: "3 months",
+      location: "Jaipur"
     },
     {
       id: 3,
-      name: "Anita Patel",
-      age: 35,
-      condition: "Skin Allergy",
-      rating: 4,
-      text: "I had tried everything for my skin allergies until I found Ratna Clinic. The natural approach without side effects worked wonders. My skin has never been better!",
-      image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
-      treatmentDuration: "4 months",
-      location: "Bangalore"
+      name: "Neha Gupta",
+      age: 32,
+      condition: "PCOS & Irregular Periods",
+      rating: 5,
+      text: "I had irregular periods and weight gain due to PCOS. Within 6 months of treatment, my cycles became regular, acne reduced, and I lost 8 kg naturally. No hormones, no side effects!",
+      treatmentDuration: "6 months",
+      location: "Delhi"
     },
     {
       id: 4,
-      name: "Suresh Menon",
-      age: 67,
-      condition: "Respiratory Issues",
-      rating: 5,
-      text: "The care and attention I received were exceptional. My breathing problems that persisted for years are now under control. Thank you for giving me my life back!",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600",
-      treatmentDuration: "1 year",
-      location: "Chennai"
+      name: "Rohit Malhotra",
+      age: 45,
+      condition: "Post-Hernia Surgery Pain",
+      rating: 4,
+      text: "Even after hernia surgery, I had chronic pain and discomfort. Homeopathic remedies reduced inflammation and pain completely in 2 months. Now I can lift weights again!",
+      treatmentDuration: "2 months",
+      location: "Mumbai"
     },
     {
       id: 5,
-      name: "Meera Desai",
+      name: "Pooja Sharma",
       age: 29,
-      condition: "PCOS",
+      condition: "Infertility (Gynecology)",
       rating: 5,
-      text: "Homeopathic treatment helped me manage my PCOS symptoms naturally. The doctors are incredibly supportive and the treatment plan was tailored perfectly for me.",
-      image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=600",
-      treatmentDuration: "7 months",
+      text: "We were trying for a baby for 3 years. After 9 months of homeopathic treatment, my ovulation improved and I conceived naturally. Our little angel is now 6 months old!",
+      treatmentDuration: "9 months",
       location: "Pune"
     }
   ];
 
-  // Auto-play testimonials
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   };
@@ -75,311 +69,166 @@ const Testimonials = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  // Star rating component
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <motion.div
+      <Star
         key={i}
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ delay: i * 0.1 + 0.5 }}
-        className={i < rating ? "text-amber-400" : "text-gray-300"}
-      >
-        <Star size={14} fill={i < rating ? "currentColor" : "none"} />
-      </motion.div>
+        size={14}
+        fill={i < rating ? "#f59e0b" : "none"}
+        className={i < rating ? "text-amber-500" : "text-gray-300"}
+      />
     ));
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: ["easeOut"]
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.8, rotateY: 180 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotateY: 0,
-      transition: {
-        duration: 0.8,
-        type: "spring",
-        stiffness: 100
-      }
-    },
-    exit: {
-      opacity: 0,
-      scale: 1.2,
-      rotateY: -180,
-      transition: {
-        duration: 0.6
-      }
-    }
-  };
-
   return (
-    <section ref={sectionRef} className="py-6 bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 relative overflow-hidden">
-
-      {/* Animated Background Elements */}
+    <section ref={sectionRef} className="py-12 bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 overflow-hidden">
+      {/* Floating Background */}
       <div className="absolute inset-0">
-        {[...Array(8)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-gradient-to-r from-amber-200 to-orange-200 opacity-20"
             style={{
-              width: Math.random() * 80 + 40,
-              height: Math.random() * 80 + 40,
+              width: Math.random() * 60 + 30,
+              height: Math.random() * 60 + 30,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, Math.random() * 30 - 15, 0],
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: Math.random() * 6 + 4,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: "easeInOut",
-            }}
+            animate={{ y: [0, -30, 0], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
           />
         ))}
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
+        {/* Header */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVariants}
-          className="text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-10"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center px-3 py-1 bg-amber-100 rounded-full text-amber-700 text-xs font-medium mb-4">
-            <Heart size={14} className="mr-1" />
-            Success Stories
-          </motion.div>
-
-          <motion.h2 variants={itemVariants} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-            What Our <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Patients Say</span>
-          </motion.h2>
-
-          <motion.p variants={itemVariants} className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Discover how homeopathic treatment has transformed lives and brought lasting wellness to our patients.
-          </motion.p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 rounded-full text-amber-700 text-xs font-medium mb-3">
+            <Heart size={14} /> Success Stories
+          </div>
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            Real Results in <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Kidney, Surgery & Gynecology</span>
+          </h2>
+          <p className="text-sm text-gray-600 max-w-xl mx-auto">
+            See how homeopathy helped patients avoid surgery, recover faster, and regain hormonal balance.
+          </p>
         </motion.div>
 
-        {/* Main Testimonial Carousel */}
-        <div className="relative max-w-2xl mx-auto">
-          {/* Testimonial Card */}
+        {/* Compact Testimonial Card */}
+        <div className="relative">
           <motion.div
             key={currentTestimonial}
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="bg-white rounded-2xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-xl shadow-md p-5 lg:p-6 max-w-2xl mx-auto"
           >
-            <div className="grid lg:grid-cols-2 items-center">
-              {/* Image Section */}
-              <div className="relative h-48 lg:h-40 overflow-hidden flex items-center">
-                <motion.img
-                  src={testimonials[currentTestimonial].image}
-                  alt={testimonials[currentTestimonial].name}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                
-                {/* Patient Info Overlay */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute bottom-4 left-4 text-white"
-                >
-                  <h3 className="text-lg font-bold mb-1">{testimonials[currentTestimonial].name}</h3>
-                  <p className="text-amber-200 text-xs">{testimonials[currentTestimonial].age} years • {testimonials[currentTestimonial].location}</p>
-                </motion.div>
+            {/* Patient Info */}
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-bold text-gray-900">{testimonials[currentTestimonial].name}</h3>
+              <p className="text-xs text-amber-600">
+                {testimonials[currentTestimonial].age} yrs • {testimonials[currentTestimonial].location}
+              </p>
+              <span className="inline-block mt-2 px-3 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
+                {testimonials[currentTestimonial].condition}
+              </span>
+            </div>
 
-                {/* Condition Badge */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.7 }}
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1"
-                >
-                  <span className="text-xs font-medium text-gray-800">{testimonials[currentTestimonial].condition}</span>
-                </motion.div>
-              </div>
+            {/* Quote */}
+            <div className="flex justify-center mb-3 text-amber-100">
+              <Quote size={28} />
+            </div>
 
-              {/* Content Section */}
-              <div className="p-4 lg:p-6 relative">
-                {/* Quote Icon */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="absolute top-4 right-4 text-amber-100"
-                >
-                  <Quote size={32} />
-                </motion.div>
+            {/* Stars */}
+            <div className="flex justify-center gap-1 mb-3">
+              {renderStars(testimonials[currentTestimonial].rating)}
+              <span className="text-xs text-gray-500 ml-1">({testimonials[currentTestimonial].rating}.0)</span>
+            </div>
 
-                {/* Rating */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="flex items-center gap-1 mb-3"
-                >
-                  {renderStars(testimonials[currentTestimonial].rating)}
-                  <span className="text-xs text-gray-500 ml-2">
-                    ({testimonials[currentTestimonial].rating}.0/5.0)
-                  </span>
-                </motion.div>
+            {/* Text */}
+            <blockquote className="text-center text-gray-700 text-sm leading-relaxed italic mb-4 px-2">
+              "{testimonials[currentTestimonial].text}"
+            </blockquote>
 
-                {/* Testimonial Text */}
-                <motion.blockquote
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="text-sm text-gray-700 leading-relaxed mb-3 italic"
-                >
-                  "{testimonials[currentTestimonial].text}"
-                </motion.blockquote>
+            {/* Duration */}
+            <div className="bg-amber-50 rounded-lg p-3 text-center">
+              <p className="text-xs">
+                <span className="font-semibold text-amber-700">Treatment Duration:</span>{' '}
+                <span className="text-gray-700">{testimonials[currentTestimonial].treatmentDuration}</span>
+              </p>
+            </div>
 
-                {/* Treatment Info */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="bg-amber-50 rounded-xl p-3 mb-3"
-                >
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="text-center">
-                      <div className="text-amber-600 font-semibold">Duration</div>
-                      <div className="text-gray-700">{testimonials[currentTestimonial].treatmentDuration}</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-amber-600 font-semibold">Improvement</div>
-                      <div className="text-gray-700">Significant</div>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Trust Badge */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
-                  className="flex items-center gap-2 text-xs text-gray-500"
-                >
-                  <Award size={14} className="text-amber-500" />
-                  <span>Verified Patient Story</span>
-                </motion.div>
-              </div>
+            {/* Verified */}
+            <div className="flex justify-center items-center gap-1 mt-3 text-xs text-gray-500">
+              <Award size={13} className="text-amber-500" />
+              <span>Verified Patient</span>
             </div>
           </motion.div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: "#f59e0b" }}
-              whileTap={{ scale: 0.9 }}
+          {/* Navigation */}
+          <div className="flex justify-center gap-3 mt-6">
+            <button
               onClick={prevTestimonial}
-              className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all"
+              className="w-9 h-9 bg-white rounded-full shadow flex items-center justify-center hover:shadow-md transition"
             >
-              <ArrowLeft size={16} className="text-gray-700" />
-            </motion.button>
+              <ArrowLeft size={15} className="text-gray-600" />
+            </button>
 
-            {/* Play/Pause Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-10 h-10 bg-amber-600 rounded-full shadow-lg flex items-center justify-center hover:bg-amber-700 transition-all"
+              className="w-9 h-9 bg-amber-600 rounded-full shadow flex items-center justify-center hover:bg-amber-700 transition"
             >
-              {isPlaying ? (
-                <Pause size={16} className="text-white" />
-              ) : (
-                <Play size={16} className="text-white" />
-              )}
-            </motion.button>
+              {isPlaying ? <Pause size={15} className="text-white" /> : <Play size={15} className="text-white" />}
+            </button>
 
-            <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: "#f59e0b" }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={nextTestimonial}
-              className="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all"
+              className="w-9 h-9 bg-white rounded-full shadow flex items-center justify-center hover:shadow-md transition"
             >
-              <ArrowRight size={16} className="text-gray-700" />
-            </motion.button>
+              <ArrowRight size={15} className="text-gray-600" />
+            </button>
           </div>
 
-          {/* Progress Dots */}
-          <div className="flex justify-center gap-2 mt-4">
-            {testimonials.map((_, index) => (
-              <motion.button
-                key={index}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentTestimonial ? 'bg-amber-600 w-6' : 'bg-gray-300'
+          {/* Dots */}
+          <div className="flex justify-center gap-1.5 mt-3">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentTestimonial(i)}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === currentTestimonial ? 'bg-amber-600 w-6' : 'bg-gray-300 w-1.5'
                 }`}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.8 }}
               />
             ))}
           </div>
         </div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
-        >
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-10">
           {[
-            { number: "10K+", label: "Patients Treated" },
-            { number: "98%", label: "Success Rate" },
-            { number: "15+", label: "Years Experience" },
-            { number: "4.9", label: "Average Rating" }
-          ].map((stat, index) => (
+            { num: "500+", label: "Kidney Cases" },
+            { num: "300+", label: "Surgery Recovery" },
+            { num: "700+", label: "Gynecology" },
+            { num: "4.9", label: "Avg Rating" }
+          ].map((s, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="text-center bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all"
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-lg p-3 text-center shadow-sm"
             >
-              <div className="text-xl font-bold text-amber-600 mb-1">{stat.number}</div>
-              <div className="text-gray-600 text-xs">{stat.label}</div>
+              <div className="text-lg font-bold text-amber-600">{s.num}</div>
+              <div className="text-xs text-gray-600">{s.label}</div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

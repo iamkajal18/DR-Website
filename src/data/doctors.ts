@@ -1,18 +1,19 @@
+// src/data/doctors.ts
 export interface Doctor {
   id: string;
   name: string;
   specialization: string;
   qualifications: string;
-  experience: string;
+  experience: string | null;
   achievements: string[];
   image: string;
-  personalNote: string;
+  whatsapp: string; // ← WhatsApp number (international format)
 }
 
 export const doctors: Doctor[] = [
   {
     id: '1',
-    name: 'Dr. Shyam Ji Srivasta',
+    name: 'Dr. Shyam Ji Srivastav',
     specialization: 'Classical Homeopathy',
     qualifications: 'BHMS, MD (Hom)',
     experience: '15+ Years',
@@ -23,22 +24,20 @@ export const doctors: Doctor[] = [
       'Regular speaker at homeopathic conferences'
     ],
     image: '/images/Ratna_papa.jpeg',
-    personalNote: 'I believe in treating the person as a whole, not just the disease. Every patient is unique and deserves personalized care and attention.'
+    whatsapp: '918317069697', // ← 8317069697
   },
   {
     id: '2',
     name: 'Dr. Devina Vachaspati',
-    specialization: 'Dermatological care Homeopathy',
-    qualifications: 'BHMS, CCH',
-    experience: '6+ Years',
+    specialization: 'Gynaecologist Homeopathy',
+    qualifications: 'BSC, BHMS',
+    experience: null,
     achievements: [
       'Specialist in child healthcare',
       'Expert in developmental disorders',
       'Published research on pediatric homeopathy',
-      'Certified in child psychology'
     ],
     image: '/images/Ratna.jpeg',
-    personalNote: 'Children are precious and their health should be nurtured naturally. I focus on building immunity and ensuring holistic development.'
+    whatsapp: '916392587902', // ← 6392587902
   },
- 
 ];
