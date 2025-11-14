@@ -1,7 +1,7 @@
 // src/pages/DoctorProfile.tsx
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Award, Briefcase, GraduationCap } from 'lucide-react';
+import { ArrowLeft, Award, Briefcase, GraduationCap, MessageCircle } from 'lucide-react';
 import { doctors } from '../data/doctors';
 
 const DoctorProfile = () => {
@@ -21,6 +21,11 @@ const DoctorProfile = () => {
     );
   }
 
+  // WhatsApp Link with pre-filled message
+  const whatsappLink = `https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
+    `Hello Dr. ${doctor.name}, I would like to consult with you.`
+  )}`;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -35,7 +40,7 @@ const DoctorProfile = () => {
           </Link>
 
           <div className="grid lg:grid-cols-3 gap-10 lg:gap-16 items-start">
-            {/* LEFT: Photo + Name */}
+            {/* LEFT: Photo + Name + WhatsApp Button */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -56,6 +61,17 @@ const DoctorProfile = () => {
                   <h2 className="text-2xl font-bold text-gray-900 mb-1">{doctor.name}</h2>
                   <p className="text-amber-600 font-semibold text-lg">{doctor.specialization}</p>
                   <p className="text-gray-600 text-sm mt-1">{doctor.qualifications}</p>
+
+                  {/* WhatsApp Button under photo */}
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-5 rounded-full transition-all shadow-md"
+                  >
+                    <MessageCircle size={18} />
+                    Chat on WhatsApp
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -105,6 +121,19 @@ const DoctorProfile = () => {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* CTA WhatsApp Button in Details Section */}
+              <div className="mt-8">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full transition-all shadow-lg text-lg"
+                >
+                  <MessageCircle size={22} />
+                  Consult via WhatsApp
+                </a>
               </div>
             </motion.div>
           </div>

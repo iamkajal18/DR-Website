@@ -15,7 +15,7 @@ export const doctors: Doctor[] = [
     id: '1',
     name: 'Dr. Shyam Ji Srivastav',
     specialization: 'Classical Homeopathy',
-    qualifications: 'BHMS, MD (Hom)',
+    qualifications: 'Medical Officer-in-Charge (Retired) Provincial Homeopathic Medical Services , UP '   ,
     experience: '15+ Years',
     achievements: [
       'Specialized in chronic disease management',
@@ -24,7 +24,7 @@ export const doctors: Doctor[] = [
       'Regular speaker at homeopathic conferences'
     ],
     image: '/images/Ratna_papa.jpeg',
-    whatsapp: '918317069697', // ← 8317069697
+    whatsapp: '918317069697',
   },
   {
     id: '2',
