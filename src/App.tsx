@@ -9,7 +9,7 @@ import Services from "./pages/Services";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import { MessageCircle } from "lucide-react"; // ✅ Icon
+
 
 function App() {
   return (
@@ -17,15 +17,24 @@ function App() {
       <div className="min-h-screen flex flex-col relative">
         <Navbar />
 
-        {/* ✅ WhatsApp Floating Icon */}
-        <a
-          href="https://wa.me/918317069697" 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 z-50 mb-16"
-        >
-          <MessageCircle className="h-6 w-6" />
-        </a>
+<a
+  href="https://wa.me/918317069697"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 right-6 z-50 mb-16 
+             hover:scale-110 transition-all duration-300"
+>
+  <div className="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg">
+    <img
+      src="/whatsapp-icon.png"
+      alt="WhatsApp"
+      className="w-6 h-6"
+    />
+  </div>
+</a>
+
+
+
 
         <main className="flex-grow">
           <Routes>

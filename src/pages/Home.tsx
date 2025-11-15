@@ -1,39 +1,287 @@
-/* src/pages/Home.tsx */
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Calendar, Star, ArrowRight, CheckCircle, Heart, Shield, Users, MessageCircle } from 'lucide-react';
 
-import {
-  Calendar,
-  Star,
-  ArrowRight,
-  CheckCircle,
-  Heart,
-  Shield,
-  Users,
-  MessageCircle,
-} from 'lucide-react';
+// Mock Data
+const doctors = [
+  {
+    id: 1,
+    name: "Dr. Shyam Ji Srivastav",
+    qualifications: "Medical Officer-in-Charge (Retired) Provincial Homeopathic Medical Services , UP ",
+    specialization: "Classical Homeopathy",
+    experience: "15+ Years",
+    whatsapp: "918317069697",
+    image: "/images/Ratna_papa.jpeg"
+  },
+  {
+    id: 2,
+    name: "Dr. Devina Vachaspati",
+    qualifications: "BSC, BHMS",
+    specialization: "Gynaecologist Homeopathy",
+    experience: "2+ Years",
+    whatsapp: "916392587902",
+    image: "/images/Ratna.jpeg"
+  }
+];
 
-import AppointmentModal from '../components/AppointmentModal';
-import { doctors } from '../data/doctors';
-import { services } from '../data/services';
-import Testimonials from './Testimonials';
+const services = [
+  { id: 1, icon: 'Heart', title: 'Chronic Disease', description: 'Long-term treatment for diabetes, hypertension, arthritis' },
+  { id: 2, icon: 'Sparkles', title: 'Acute Ailments', description: 'Quick relief for cold, fever, allergies' },
+  { id: 3, icon: 'Baby', title: 'Child Care', description: 'Safe treatment for growing children' },
+  { id: 4, icon: 'Wind', title: 'Wellness', description: 'Preventive care and immunity boost' },
+  { id: 5, icon: 'Brain', title: 'Mental Health', description: 'Stress, anxiety, depression treatment' },
+  { id: 6, icon: 'Activity', title: 'Skin Care', description: 'Natural solutions for skin problems' },
+];
 
+// AppointmentModal Component
+function AppointmentModal({ isOpen, onClose }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    date: '',
+    doctor: '',
+    message: ''
+  });
+
+  if (!isOpen) return null;
+
+  const handleWhatsAppSubmit = (e:any) => {
+    e.preventDefault();
+    
+    // WhatsApp message
+    const whatsappNumber = '918317069697'; 
+    const message = `*New Appointment Request*%0A%0AName: ${formData.name}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0ADate: ${formData.date}%0ADoctor: ${formData.doctor}%0AMessage: ${formData.message || 'N/A'}`;
+    
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    
+    // Reset form and close modal
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      date: '',
+      doctor: '',
+      message: ''
+    });
+    onClose();
+  };
+
+  const handleEmailSubmit = (e:any) => {
+    e.preventDefault();
+    
+    // Email details
+    const emailTo = 'shyamji111@gmail.com'; 
+    const subject = encodeURIComponent('New Appointment Request');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nPreferred Date: ${formData.date}\nDoctor: ${formData.doctor}\nMessage: ${formData.message || 'N/A'}`
+    );
+    
+    window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+    
+    // Reset form and close modal
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      date: '',
+      doctor: '',
+      message: ''
+    });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl max-w-md w-full p-8 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-bold text-gray-900">Book Appointment</h3>
+          <button 
+            onClick={onClose} 
+            className="text-gray-400 hover:text-gray-600 text-3xl leading-none"
+          >
+            &times;
+          </button>
+        </div>
+
+        <form className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              required
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+              placeholder="+91 98765 43210"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Preferred Date <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              required
+              value={formData.date}
+              onChange={(e) => setFormData({...formData, date: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Doctor <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              value={formData.doctor}
+              onChange={(e) => setFormData({...formData, doctor: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all"
+            >
+              <option value="">Choose a doctor</option>
+              <option value="Dr. Ratan Kumar">Dr. Shyam Ji Srivastav</option>
+              <option value="Dr. Priya Sharma">Dr. Devina Vachaspati</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Message (Optional)
+            </label>
+            <textarea
+              value={formData.message}
+              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              rows="4"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all resize-none"
+              placeholder="Tell us about your health concern..."
+            />
+          </div>
+
+          {/* Dual Buttons - WhatsApp & Email */}
+          <div className="space-y-3">
+            <button
+              type="button"
+              onClick={handleWhatsAppSubmit}
+              className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            >
+              <MessageCircle size={20} />
+              Book via WhatsApp
+            </button>
+
+            <button
+              type="button"
+              onClick={handleEmailSubmit}
+              className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-colors font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Book via Email
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500 text-center mt-3">
+            Choose your preferred booking method
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// Testimonials Component
+function Testimonials() {
+  const testimonials = [
+    {
+      name: "Rajesh Kumar",
+      text: "Dr. Ratan cured my chronic back pain. Excellent treatment!",
+      rating: 5
+    },
+    {
+      name: "Priya Singh",
+      text: "Best homeopathy clinic in the city. Highly recommend!",
+      rating: 5
+    },
+    {
+      name: "Amit Sharma",
+      text: "Professional staff and effective treatments. Very satisfied.",
+      rating: 5
+    }
+  ];
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            What Our Patients Say
+          </h2>
+          <p className="text-lg text-gray-600">Real experiences from our happy patients</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, i) => (
+            <div key={i} className="bg-white p-6 rounded-xl shadow-md">
+              <div className="flex mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="h-5 w-5 text-amber-500 fill-amber-500" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-4">"{testimonial.text}"</p>
+              <p className="font-semibold text-gray-900">- {testimonial.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Main Home Component
 export default function Home() {
-  /* ---------- State ---------- */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const visibleServices = showAll ? services : services.slice(0, 4);
 
-  /* ---------- IntersectionObserver refs ---------- */
-  const sectionRefs = useRef<HTMLDivElement[]>([]);
+  const sectionRefs = useRef([]);
 
-  const addToRefs = (el: HTMLDivElement | null) => {
+  const addToRefs = (el) => {
     if (el && !sectionRefs.current.includes(el)) {
       sectionRefs.current.push(el);
     }
   };
 
-  /* ---------- Scroll animation observer ---------- */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -53,8 +301,7 @@ export default function Home() {
     };
   }, []);
 
-  /* ---------- Icon map ---------- */
-  const iconMap: Record<string, any> = {
+  const iconMap = {
     Activity: CheckCircle,
     Sparkles: Star,
     Heart,
@@ -63,10 +310,9 @@ export default function Home() {
     Brain: Heart,
   };
 
-  /* ---------- Render ---------- */
   return (
     <div className="min-h-screen overflow-x-hidden relative">
-      {/* ---------- HERO ---------- */}
+      {/* HERO SECTION */}
       <section className="relative bg-gradient-to-br from-amber-50 via-white to-orange-50 py-20 lg:py-32">
         <div ref={addToRefs} className="animate-fade-in relative z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,13 +337,13 @@ export default function Home() {
                     <span className="font-medium">Book Appointment</span>
                   </button>
 
-                  <Link
-                    to="/services"
+                  <a
+                    href="/services"
                     className="flex items-center justify-center space-x-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-amber-600 transition-all transform hover:scale-105 hover:shadow-lg"
                   >
                     <span className="font-medium">Our Services</span>
                     <ArrowRight className="h-5 w-5" />
-                  </Link>
+                  </a>
                 </div>
 
                 <div className="grid grid-cols-3 gap-6 mt-12">
@@ -128,7 +374,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- ABOUT ---------- */}
+      {/* ABOUT SECTION */}
       <section className="py-16 bg-white">
         <div ref={addToRefs} className="animate-fade-in-up">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,20 +393,17 @@ export default function Home() {
                 {
                   icon: Shield,
                   title: 'Safe & Natural',
-                  description:
-                    'All our treatments use natural remedies with no side effects, safe for all ages.',
+                  description: 'All our treatments use natural remedies with no side effects, safe for all ages.',
                 },
                 {
                   icon: Users,
                   title: 'Expert Doctors',
-                  description:
-                    'Our team of certified homeopaths brings years of experience and expertise.',
+                  description: 'Our team of certified homeopaths brings years of experience and expertise.',
                 },
                 {
                   icon: Heart,
                   title: 'Holistic Care',
-                  description:
-                    'We treat the whole person - body, mind, and spirit - for lasting wellness.',
+                  description: 'We treat the whole person - body, mind, and spirit - for lasting wellness.',
                 },
               ].map((item, i) => (
                 <div key={i} className="text-center p-6">
@@ -176,99 +419,89 @@ export default function Home() {
         </div>
       </section>
 
-    
-      {/* ---------- DOCTORS ---------- */}
-<section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-  <div ref={addToRefs} className="animate-fade-in">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
-          Meet Our Expert Doctors
-        </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Experienced homeopathic practitioners dedicated to your health and well-being
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-12">
-        {doctors.map((doctor, i) => {
-          const whatsappLink = `https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
-            `Hello Dr. ${doctor.name}, I would like to consult with you.`
-          )}`;
-
-          return (
-            <div
-              key={doctor.id}
-              className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 flex flex-col md:flex-row items-center overflow-hidden group ${
-                i % 2 === 1 ? 'md:flex-row-reverse' : ''
-              }`}
-            >
-              {/* Image */}
-              <div className="w-full md:w-1/2 h-[380px] md:h-[420px] relative flex-shrink-0">
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
-                  className="w-full h-full object-contain object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-amber-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              </div>
-
-              {/* Details */}
-              <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center text-left space-y-4">
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
-                    {doctor.name}
-                  </h3>
-                  <p className="text-amber-600 text-sm font-semibold mt-1">
-                    {doctor.qualifications}
-                  </p>
-                  <p className="text-gray-700 text-lg mt-2">{doctor.specialization}</p>
-                  {doctor.experience && (
-                    <p className="text-gray-500 text-sm">{doctor.experience} Experience</p>
-                  )}
-                </div>
-
-              
-             {/* Action Buttons */}
-<div className="flex flex-col sm:flex-row gap-3 pt-2 items-start sm:items-center">
-  {/* View Profile - Now Safe */}
-  <Link
-    to={`/doctors`}
-    className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium text-base transition-colors w-fit"
-    onClick={(e) => e.stopPropagation()} // Prevent card click
-  >
-    View Profile
-    <ArrowRight className="h-5 w-5 ml-2" />
-  </Link>
-
-  {/* WhatsApp Button - 100% WORKING */}
-  <a
-    href={whatsappLink}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-6 rounded-full transition-all shadow-md hover:shadow-lg text-sm transform hover:scale-105 z-10 relative pointer-events-auto"
-    onClick={(e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      window.open(whatsappLink, '_blank', 'noopener,noreferrer');
-    }}
-  >
-    <MessageCircle size={18} />
-    Chat on WhatsApp
-  </a>
-</div>
-
-
-              </div>
+      {/* DOCTORS SECTION */}
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div ref={addToRefs} className="animate-fade-in">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
+                Meet Our Expert Doctors
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Experienced homeopathic practitioners dedicated to your health and well-being
+              </p>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  </div>
-</section>
 
-      {/* ---------- GALLERY ---------- */}
+            <div className="flex flex-col gap-12">
+              {doctors.map((doctor, i) => {
+                const whatsappLink = `https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
+                  `Hello Dr. ${doctor.name}, I would like to consult with you.`
+                )}`;
+
+                return (
+                  <div
+                    key={doctor.id}
+                    className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 flex flex-col md:flex-row items-center overflow-hidden group ${
+                      i % 2 === 1 ? 'md:flex-row-reverse' : ''
+                    }`}
+                  >
+                    <div className="w-full md:w-1/2 h-[380px] md:h-[420px] relative flex-shrink-0">
+                      <img
+                        src={doctor.image}
+                        alt={doctor.name}
+                        className="w-full h-full object-contain object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-amber-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    </div>
+
+                    <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center text-left space-y-4">
+                      <div>
+                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                          {doctor.name}
+                        </h3>
+                        <p className="text-amber-600 text-sm font-semibold mt-1">
+                          {doctor.qualifications}
+                        </p>
+                        <p className="text-gray-700 text-lg mt-2">{doctor.specialization}</p>
+                        {doctor.experience && (
+                          <p className="text-gray-500 text-sm">{doctor.experience} Experience</p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-3 pt-2 items-start sm:items-center">
+                        <a
+                          href={`/doctor/${doctor.id}`}
+                          className="inline-flex items-center justify-center gap-2 text-amber-700 hover:text-amber-800 font-semibold text-sm transition-all duration-300 group/link"
+                          onMouseDown={(e) => e.stopPropagation()}
+                        >
+                          <span>View Full Profile</span>
+                          <ArrowRight
+                            size={16}
+                            className="transition-transform duration-300 group-hover/link:translate-x-1"
+                          />
+                        </a>
+
+                        <a
+                          href={whatsappLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-6 rounded-full transition-all shadow-md hover:shadow-lg text-sm transform hover:scale-105"
+                          onMouseDown={(e) => e.stopPropagation()}
+                        >
+                          <MessageCircle size={18} />
+                          Chat on WhatsApp
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GALLERY SECTION */}
       <section className="py-8 sm:py-12 md:py-16 bg-white">
         <div ref={addToRefs} className="animate-fade-in-up">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -287,17 +520,14 @@ export default function Home() {
                 className="overflow-x-auto lg:overflow-visible scrollbar-hide snap-x snap-mandatory lg:snap-none -mx-4 sm:mx-0"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-2 lg:px-0">
                   {[
                     '/images/Ratna1.jpeg',
                     '/images/Ratna2.jpeg',
                     '/images/Ratna3.jpeg',
                     '/images/Ratna4.jpeg',
                   ].map((src, i) => (
-                    <div 
-                      key={i} 
-                      className="h-[200px] sm:h-[220px] md:h-[260px] lg:h-[280px]"
-                    >
+                    <div key={i} className="h-[200px] sm:h-[220px] md:h-[260px] lg:h-[280px]">
                       <div className="relative group/item overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full">
                         <img
                           src={src}
@@ -344,7 +574,7 @@ export default function Home() {
 
             <div className="flex lg:hidden justify-center mt-4 gap-1.5">
               {[0, 1, 2, 3].map((dot) => (
-                <div 
+                <div
                   key={dot}
                   className={`w-2 h-2 rounded-full ${dot === 0 ? 'bg-amber-600' : 'bg-gray-300'}`}
                 ></div>
@@ -354,7 +584,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- SERVICES ---------- */}
+      {/* SERVICES SECTION */}
       <section className="py-16 bg-white">
         <div ref={addToRefs} className="animate-fade-in-up">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -386,21 +616,22 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className='mb-20 text-center text-orange-400 sm:mt-7'>
-          <Link
-            to="/services"
+        <div className="mb-20 text-center sm:mt-7">
+          <a
+            href="/services"
             className="inline-flex items-center justify-center space-x-2 bg-white text-gray-900 px-4 py-2 rounded-full border border-gray-200 hover:border-amber-600 hover:text-amber-700 transition-all transform hover:scale-105 hover:shadow-md text-sm font-medium"
+            onMouseDown={(e) => e.stopPropagation()}
           >
             <span>Show More</span>
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
         </div>
       </section>
 
-      {/* ---------- TESTIMONIALS ---------- */}
+      {/* TESTIMONIALS */}
       <Testimonials />
 
-      {/* ---------- CTA ---------- */}
+      {/* CTA SECTION */}
       <section className="py-16 bg-white">
         <div ref={addToRefs} className="animate-fade-in-up">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -435,10 +666,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- MODAL ---------- */}
+      {/* APPOINTMENT MODAL */}
       <AppointmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      {/* ---------- GLOBAL KEYFRAMES ---------- */}
+      {/* GLOBAL STYLES */}
       <style>{`
         @keyframes fade-in { from { opacity:0; } to { opacity:1; } }
         @keyframes fade-in-up { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
