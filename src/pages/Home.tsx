@@ -24,12 +24,30 @@ const doctors = [
 ];
 
 const services = [
-  { id: 1, icon: 'Heart', title: 'Chronic Disease', description: 'Long-term treatment for diabetes, hypertension, arthritis' },
-  { id: 2, icon: 'Sparkles', title: 'Acute Ailments', description: 'Quick relief for cold, fever, allergies' },
-  { id: 3, icon: 'Baby', title: 'Child Care', description: 'Safe treatment for growing children' },
-  { id: 4, icon: 'Wind', title: 'Wellness', description: 'Preventive care and immunity boost' },
-  { id: 5, icon: 'Brain', title: 'Mental Health', description: 'Stress, anxiety, depression treatment' },
-  { id: 6, icon: 'Activity', title: 'Skin Care', description: 'Natural solutions for skin problems' },
+  { 
+    id: 1, 
+    icon: 'Activity', 
+    title: 'Kidney Stones', 
+    description: 'Non-surgical removal of kidney stones using classical homeopathy. Safe, painless, and permanent cure without operation.' 
+  },
+  { 
+    id: 2, 
+    icon: 'Zap', 
+    title: 'Gall Bladder Stones', 
+    description: 'Natural dissolution of gallstones. Avoid surgery with deep-acting constitutional remedies.' 
+  },
+  { 
+    id: 3, 
+    icon: 'Heart', 
+    title: 'Skin Diseases', 
+    description: 'Complete cure for psoriasis, eczema, acne, warts, leucoderma, fungal infections, and allergic dermatitis.' 
+  },
+  { 
+    id: 4, 
+    icon: 'User', 
+    title: 'Gynecology (Women’s Health)', 
+    description: 'Expert care by Dr. Devina Vachaspati for PCOS, PCOD, irregular periods, leucorrhoea, fibroids, infertility, and menopause.' 
+  },
 ];
 
 // AppointmentModal Component
@@ -66,28 +84,71 @@ function AppointmentModal({ isOpen, onClose }) {
     onClose();
   };
 
-  const handleEmailSubmit = (e:any) => {
+const handleEmailSubmit = async (e:any) => {
     e.preventDefault();
     
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.doctor) {
+      alert('कृपया सभी आवश्यक फ़ील्ड भरें / Please fill in all required fields');
+      return;
+    }
+    
     // Email details
-    const emailTo = 'shyamji111@gmail.com'; 
-    const subject = encodeURIComponent('New Appointment Request');
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nPreferred Date: ${formData.date}\nDoctor: ${formData.doctor}\nMessage: ${formData.message || 'N/A'}`
-    );
+    const emailTo = 'shyamji111@gmail.com';
+    const emailSubject = 'New Appointment Request - Ratna Homoeo Clinic';
+    const emailBody = `
+New Appointment Request
+
+Patient Details:
+================
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Preferred Date: ${formData.date}
+Doctor: ${formData.doctor}
+
+Message:
+${formData.message || 'No additional message'}
+
+This appointment request was submitted through the Ratna Homoeo Clinic website.
+    `.trim();
     
-    window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+    // Method 1: Try Gmail compose URL (works better on web)
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailTo}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
     
-    // Reset form and close modal
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      date: '',
-      doctor: '',
-      message: ''
-    });
-    onClose();
+    // Open Gmail in new tab
+    const newWindow = window.open(gmailUrl, '_blank');
+    
+    if (newWindow) {
+      alert('✅ Email form opened in Gmail! Please send the email to complete your appointment request.');
+      
+      // Reset form and close modal
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        date: '',
+        doctor: '',
+        message: ''
+      });
+      onClose();
+    } else {
+      // Fallback: Try mailto link
+      const mailtoLink = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      window.location.href = mailtoLink;
+      
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          doctor: '',
+          message: ''
+        });
+        onClose();
+      }, 1000);
+    }
   };
 
   return (
