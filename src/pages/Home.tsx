@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Calendar, Star, ArrowRight, CheckCircle, Heart, Shield, Users, MessageCircle } from 'lucide-react';
-
+import { Link } from 'react-router-dom';
 // Mock Data
 const doctors = [
   {
@@ -530,18 +530,17 @@ export default function Home() {
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-3 pt-2 items-start sm:items-center">
-                        <a
-                          href={`/doctor/${doctor.id}`}
-                          className="inline-flex items-center justify-center gap-2 text-amber-700 hover:text-amber-800 font-semibold text-sm transition-all duration-300 group/link"
-                          onMouseDown={(e) => e.stopPropagation()}
-                        >
-                          <span>View Full Profile</span>
-                          <ArrowRight
-                            size={16}
-                            className="transition-transform duration-300 group-hover/link:translate-x-1"
-                          />
-                        </a>
-
+                       <Link
+  to={`/doctor/${doctor.id}`}
+  className="inline-flex items-center justify-center gap-2 text-amber-700 hover:text-amber-800 font-semibold text-sm transition-all duration-300 group/link"
+  onClick={(e) => e.stopPropagation()}
+>
+  <span>View Full Profile</span>
+  <ArrowRight
+    size={16}
+    className="transition-transform duration-300 group-hover/link:translate-x-1"
+  />
+</Link>
                         <a
                           href={whatsappLink}
                           target="_blank"
