@@ -677,14 +677,14 @@ export default function Home() {
           </div>
         </div>
         <div className="mb-20 text-center sm:mt-7">
-          <a
-            href="/services"
-            className="inline-flex items-center justify-center space-x-2 bg-white text-gray-900 px-4 py-2 rounded-full border border-gray-200 hover:border-amber-600 hover:text-amber-700 transition-all transform hover:scale-105 hover:shadow-md text-sm font-medium"
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <span>Show More</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
+         <Link
+  to="/services"
+  className="inline-flex items-center justify-center space-x-2 bg-white text-gray-900 px-4 py-2 rounded-full border border-gray-200 hover:border-amber-600 hover:text-amber-700 transition-all transform hover:scale-105 hover:shadow-md text-sm font-medium"
+  onClick={(e) => e.stopPropagation()}
+>
+  <span>Show More</span>
+  <ArrowRight className="h-4 w-4" />
+</Link>
         </div>
       </section>
 
