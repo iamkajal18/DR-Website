@@ -14,9 +14,9 @@ export const doctors: Doctor[] = [
  {
   id: '1',
   name: 'Dr. Shyam Ji Srivastav',
-  specialization: 'Classical Homeopathy',
+  specialization: 'Expert in Homeopathy ',
   qualifications: 'Medical Officer-in-Charge (Retired), Provincial Homeopathic Medical Services, UP',
-  experience: '15+ Years',
+  experience: '43+ Years',
   achievements: [
     'Awarded Certificate of Appreciation by the Government of India in 1991',
     'Recognized for outstanding work in the Universal Immunization Program in 1996',
