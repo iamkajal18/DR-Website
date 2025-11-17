@@ -89,7 +89,7 @@ const handleEmailSubmit = async (e:any) => {
     
     // Validate required fields
     if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.doctor) {
-      alert('कृपया सभी आवश्यक फ़ील्ड भरें / Please fill in all required fields');
+      alert(' Please fill in all required fields');
       return;
     }
     

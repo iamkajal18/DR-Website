@@ -7,6 +7,7 @@ import Doctors from "./pages/Doctors";
 import DoctorProfile from "./pages/DoctorProfile";
 import Services from "./pages/Services";
 import Gallery from "./pages/Gallery";
+import Achievements from "./pages/Achievements"
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="/doctor/:id" element={<DoctorProfile />} />
             <Route path="/services" element={<Services />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/achievements" element={<Achievements />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>

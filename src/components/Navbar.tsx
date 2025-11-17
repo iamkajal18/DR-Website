@@ -30,6 +30,7 @@ export default function Navbar() {
     { name: 'Doctors', path: '/doctors' },
     { name: 'About', path: '/about' },
     { name: 'Gallery', path: '/gallery' }, 
+    { name: 'Achievements', path: '/achievements' },
     { name: 'Contact', path: '/contact' }
   ];
 

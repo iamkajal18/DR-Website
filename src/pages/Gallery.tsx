@@ -84,6 +84,9 @@ export default function Gallery() {
     { src: "/images/Ratna2.jpeg", alt: "Consultation Room – Dr. Shyam Ji" },
     { src: "/images/Ratna3.jpeg", alt: "Medicine Dispensary & Pharmacy" },
     { src: "/images/Ratna4.jpeg", alt: "Patient Recovery & Follow-up Area" },
+    { src: "/images/Ratna6.jpeg", alt: "Patient Recovery & Follow-up Area" },
+    { src: "/images/Ratna5.jpeg", alt: "Patient Recovery & Follow-up Area" },
+    { src: "/images/Ratna7.jpeg", alt: "Patient Recovery & Follow-up Area" },
  
   ];
 
