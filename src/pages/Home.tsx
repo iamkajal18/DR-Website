@@ -8,7 +8,7 @@ const doctors = [
     name: "Dr. Shyam Ji Srivastav",
     qualifications: "Medical Officer-in-Charge (Retired) Provincial Homeopathic Medical Services , UP ",
     specialization: "Expert in Homeopathy",
-    experience: "15+ Years",
+    experience: "43+ Years",
     whatsapp: "918317069697",
     image: "/images/Ratna_papa.jpeg"
   },
