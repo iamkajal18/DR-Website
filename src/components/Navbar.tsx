@@ -60,10 +60,7 @@ export default function Navbar() {
                 <span>Mon-Sat: 9AM-7PM</span>
               </div>
               <div className="w-px h-4 bg-amber-400/50"></div>
-              <div className="flex items-center space-x-2">
-                <AlertCircle className="h-3 w-3" />
-                <span>Emergency: 24/7 Available</span>
-              </div>
+              
             </div>
           </div>
 

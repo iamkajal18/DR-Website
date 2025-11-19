@@ -18,14 +18,16 @@ export const doctors: Doctor[] = [
   qualifications: 'Medical Officer-in-Charge (Retired), Provincial Homeopathic Medical Services, UP',
   experience: '43+ Years',
   achievements: [
-    'Awarded Certificate of Appreciation by the Government of India in 1991',
-    'Recognized for outstanding work in the Universal Immunization Program in 1996',
-    'Received Gold Medal and State-level honor by the Uttar Pradesh Government for Pulse Polio Program in 1997',
-    'Honored by the Indian Medical Association in 2000 for exceptional contribution to public health services',
-    'Received Excellence Award in 2001',
-    'Appreciated in 2009 for contributions in disease control, maternal & child health, and medical education (CME)',
-    'Published multiple articles in medical and health magazines'
-  ],
+  'Post Graduate Certificate in Rehabilitation was awarded in 1991 by the Government of India.',
+  'Participated in an orientation programme organized by UNICEF in 1996.',
+  'Achieved an award and Gold Medal by the Hon’ble Governor of Uttar Pradesh in 1997.',
+  'Life member of the Indian Red Cross Society.',
+  'Appreciated as the Best Worker by the District Magistrate in 2000.',
+  'Dr. Hahnemann Samman achieved in 2011.',
+  'Participated in CME Programme for mother and child care organized by N.H.M.C. and Hospital in 2009.',
+  'Articles and research programme papers published in various magazines.'
+],
+
   image: '/images/Ratna_papa.jpeg',
   whatsapp: '918317069697',
 },

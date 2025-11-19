@@ -7,7 +7,7 @@ const doctors = [
     id: 1,
     name: "Dr. Shyam Ji Srivastav",
     qualifications: "Medical Officer-in-Charge (Retired) Provincial Homeopathic Medical Services , UP ",
-    specialization: "Classical Homeopathy",
+    specialization: "Expert in Homeopathy",
     experience: "15+ Years",
     whatsapp: "918317069697",
     image: "/images/Ratna_papa.jpeg"
@@ -28,7 +28,7 @@ const services = [
     id: 1, 
     icon: 'Activity', 
     title: 'Kidney Stones', 
-    description: 'Non-surgical removal of kidney stones using classical homeopathy. Safe, painless, and permanent cure without operation.' 
+    description: 'Non-surgical removal of kidney stones using expert in homeopathy. Safe, painless, and permanent cure without operation.' 
   },
   { 
     id: 2, 
