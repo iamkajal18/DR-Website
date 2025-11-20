@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Calendar, Star, ArrowRight, CheckCircle, Heart, Shield, Users, MessageCircle } from 'lucide-react';
+import { Calendar, Star, ArrowRight, CheckCircle, Heart, Shield, Users, MessageCircle ,Phone} from 'lucide-react';
 import { Link } from 'react-router-dom';
 // Mock Data
 const doctors = [
@@ -270,6 +270,14 @@ This appointment request was submitted through the Ratna Homoeo Clinic website.
               </svg>
               Book via Email
             </button>
+
+           <a
+    href="tel:+916392587902"
+    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 inline-block text-center no-underline"
+  >
+    <Phone size={20} />
+    Call Now: +91 63925 87902
+  </a>
           </div>
 
           <p className="text-xs text-gray-500 text-center mt-3">

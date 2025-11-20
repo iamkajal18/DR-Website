@@ -445,6 +445,7 @@ Please confirm this appointment.`;
                   Send via WhatsApp
                 </button>
               </div>
+              
 
               <button
                 type="button"
